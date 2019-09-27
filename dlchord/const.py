@@ -1,0 +1,99 @@
+# parse
+ACCIDENTAL = (("#", "+"), ("b", "-"))
+ACCIDENTAL_VAL = {"#": 1, "b": -1, "+": 1, "-": -1}
+ON_CHORD_SIGN = ("/")
+
+# 
+SCALE_FLAT = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
+SCALE_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+DEGREE = ["I", "bII", "II", "bIII", "III", "IV", "bV", "V", "bVI", "VI", "bVII", "VII"]
+# quality
+CHORD_COMP_FLAT5 = "b5"
+CHORD_COMP_FLAT9 = "b9"
+CHORD_COMP_FLAT13 = "b13"
+CHORD_COMP_SHARP5 = "#5"
+CHORD_COMP_SHARP9 = "#9"
+CHORD_COMP_SHARP11 = "#11"
+CHORD_COMP_2 = "2"
+CHORD_COMP_4 = "4"
+CHORD_COMP_6 = "6"
+CHORD_COMP_7 = "7"
+CHORD_COMP_9 = "9"
+CHORD_COMP_11 = "11"
+CHORD_COMP_13 = "13"
+
+CHORD_COMP_PRIORITY = {
+    CHORD_COMP_FLAT5: 1,
+    CHORD_COMP_FLAT9: 1,
+    CHORD_COMP_FLAT13: 1,
+    CHORD_COMP_SHARP5: 1,
+    CHORD_COMP_SHARP9: 1,
+    CHORD_COMP_SHARP11: 1,
+    CHORD_COMP_2: 2,
+    CHORD_COMP_4: 2,
+    CHORD_COMP_6: 2,
+    CHORD_COMP_7: 2,
+    CHORD_COMP_9: 2,
+    CHORD_COMP_11: 2,
+    CHORD_COMP_13: 2
+}
+
+TENSION = [
+    CHORD_COMP_FLAT5,
+    CHORD_COMP_FLAT9,
+    CHORD_COMP_FLAT13,
+    CHORD_COMP_SHARP5,
+    CHORD_COMP_SHARP9,
+    CHORD_COMP_SHARP11,
+    CHORD_COMP_6,
+    CHORD_COMP_9,
+    CHORD_COMP_11,
+    CHORD_COMP_13]
+
+CHORD_root = 1
+CHORD_2nd = 3
+CHORD_3rd = 5
+CHORD_4th = 6
+CHORD_5th = 8
+CHORD_6th = 10
+CHORD_7th = 11
+CHORD_9th = 3
+CHORD_11th = 6
+CHORD_13th = 10
+
+CHORD_VALUE = {
+    "1": (-1, CHORD_root),
+    "2": (-1, CHORD_2nd),
+    "3": (-1, CHORD_3rd),
+    "4": (-1, CHORD_4th),
+    "5": (-1, CHORD_5th),
+    "6": (-1, CHORD_6th),
+    "7": (2, CHORD_7th),
+    "9": (3, CHORD_9th),
+    "11": (4, CHORD_11th),
+    "13": (5, CHORD_13th)
+}
+
+QUALITY_MINOR = "m"
+QUALITY_MAJOR = "M"
+QUALITY_MINOR_MAJOR = "mM"
+QUALITY_AUG = "aug"
+QUALITY_AUG_MAJOR = "augM"
+QUALITY_DIM = "dim"
+QUALITY_ADD = "add"
+QUALITY_MINOR_ADD = "madd"
+QUALITY_SUS = "sus"
+
+QUALITY_LIST = [QUALITY_MINOR, QUALITY_MAJOR, QUALITY_MINOR_MAJOR, QUALITY_AUG, QUALITY_AUG_MAJOR, QUALITY_DIM, QUALITY_ADD, QUALITY_MINOR_ADD, QUALITY_SUS]
+CHORD_QUALITY_MAJOR = (CHORD_root, CHORD_3rd, CHORD_5th, CHORD_7th)
+CHORD_QUALITY = {
+    QUALITY_MINOR: (0, -1, 0, 0),
+    QUALITY_MAJOR: (0, 0, 0, 1),
+    QUALITY_MINOR_MAJOR: (0, -1, 0, 1),
+    QUALITY_AUG: (0, 0, 1, 0),
+    QUALITY_AUG_MAJOR: (0, 0, 1, 1),
+    QUALITY_DIM: (0, -1, -1, -1),
+    QUALITY_ADD: (0, 0, 0, 0),
+    QUALITY_MINOR_ADD: (0, -1, 0, 0),
+    QUALITY_SUS: (0, 0, 0, 0),
+}
