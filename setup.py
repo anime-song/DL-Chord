@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="dlchord",
-    version="1.0.1",
+    version="1.1.0",
     description="chord library",
     install_requires=["numpy"],
     author="anime-song",

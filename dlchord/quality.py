@@ -15,9 +15,9 @@ def _norm(x):
 
 def categorical(x, classes=12):
     y = np.zeros((classes))
-    y[x[0] - 1] = 100
+    y[x[0] - 1] = 10
     for i in range(1, len(x)):
-        y[x[i] - 1] = 50
+        y[x[i] - 1] = 5
 
     y = np.where(y == 0, 1, y)
 
@@ -56,6 +56,10 @@ class Quality:
     def __str__(self):
         return self._quality
         
+    @property
+    def quality(self):
+        return self._quality
+    
     def _getComponent(self, quality):
         quality = _norm(quality)
         priority = sorted(CHORD_COMP_PRIORITY.items(), key=lambda x: x[1])

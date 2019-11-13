@@ -47,6 +47,13 @@ class Chord:
 
         self._root, self._quality, self._on, self._scale = parse(self._chord)
 
+        quality_name, _ = self._quality._getQuality(
+            self._quality._quality)
+        
+        if quality_name == "":
+            raise ValueError(
+                "The Chord could not be parsed. It may not be in the correct format.")
+
     def __str__(self):
         return self._chord
 
