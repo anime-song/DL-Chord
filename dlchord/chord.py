@@ -50,7 +50,7 @@ class Chord:
         quality_name, _ = self._quality._getQuality(
             self._quality._quality)
         
-        if quality_name == "":
+        if quality_name == "" and self._root not in self._scale:
             raise ValueError(
                 "The Chord could not be parsed. It may not be in the correct format.")
 
