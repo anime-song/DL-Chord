@@ -2,6 +2,16 @@ from .const import ACCIDENTAL, ON_CHORD_SIGN, SCALE_FLAT, SCALE_SHARP, DEGREE, Q
 from .quality import Quality, keynumber
 
 
+def normalize(chord):
+    return chord.replace(
+        "maj",
+        "M").replace(
+        "△",
+        "M").replace(
+            "○",
+        "dim7").replace("φ", "m7-5")
+
+
 def parse(chord):
 
     if len(chord) > 1 and any((chord[1] in acc) for acc in ACCIDENTAL):
@@ -43,14 +53,11 @@ def parse(chord):
 class Chord:
 
     def __init__(self, chord):
+        chord = normalize(chord)
         self._chord = chord
-
         self._root, self._quality, self._on, self._scale = parse(self._chord)
-
-        quality_name, _ = self._quality._getQuality(
-            self._quality._quality)
-        
-        if quality_name == "" and self._root not in self._scale:
+      
+        if self._root not in self._scale:
             raise ValueError(
                 "The Chord could not be parsed. It may not be in the correct format.")
 
