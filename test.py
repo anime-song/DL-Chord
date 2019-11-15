@@ -1,3 +1,3 @@
 from dlchord import Chord
 
-print(Chord("Cmaj7"))
+print(Chord("Bm7-5(omit3)/F").getnumber())

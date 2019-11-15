@@ -95,13 +95,17 @@ class Quality:
             omit_ = quality_.split("omit")[-1].replace("(", "").replace(")", "")
             omit_num = list(omit_)
 
+            omit_index = []
             for o in omit_num:
                 if o == "1":
-                    del values_[0]
+                    omit_index.append(values_[0])
                 elif o == "3":
-                    del values_[1]
+                    omit_index.append(values_[1])
                 elif o == "5":
-                    del values_[2]
+                    omit_index.append(values_[2])
+
+            for idx in omit_index:
+                values_.remove(idx)
 
         return values_
     
@@ -113,9 +117,6 @@ class Quality:
 
         # 3和音を追加する
         values.extend([CHORD_root, CHORD_3rd, CHORD_5th])
-
-        # 省略音
-        values = self._omit(quality_, values)
 
         # 構成音を追加する
         values.extend([CHORD_VALUE[v][1] for v in chord_component])
@@ -153,6 +154,9 @@ class Quality:
             values.remove(CHORD_3rd)
 
         quality_value = np.array(quality_value)
+
+        # 省略音
+        values = self._omit(quality_, values)
 
         for i in range(len(quality_value)):
             for j in range(len(values)):
