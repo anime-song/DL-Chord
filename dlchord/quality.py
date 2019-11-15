@@ -88,11 +88,34 @@ class Quality:
         
         return quality_name, quality_value
 
-    def _convert(self, chord_component, tension, quality_name, quality_value):
+    def _omit(self, quality_, values):
+        values_ = values
+        
+        if quality_.find("omit") != -1:
+            omit_ = quality_.split("omit")[-1].replace("(", "").replace(")", "")
+            omit_num = list(omit_)
+
+            for o in omit_num:
+                if o == "1":
+                    del values_[0]
+                elif o == "3":
+                    del values_[1]
+                elif o == "5":
+                    del values_[2]
+
+        return values_
+    
+    def _convert(self, quality_):
         values = []
+
+        chord_component, tension = self._getComponent(quality_)
+        quality_name, quality_value = self._getQuality(quality_)
 
         # 3和音を追加する
         values.extend([CHORD_root, CHORD_3rd, CHORD_5th])
+
+        # 省略音
+        values = self._omit(quality_, values)
 
         # 構成音を追加する
         values.extend([CHORD_VALUE[v][1] for v in chord_component])
@@ -140,14 +163,7 @@ class Quality:
 
     def getnumber(self, root='C', on=None, norm=False):
         
-        chord_comp, tension = self._getComponent(self._quality)
-        quality_name, quality_value = self._getQuality(self._quality)
-
-        values = self._convert(
-            chord_component=chord_comp,
-            tension=tension,
-            quality_name=quality_name,
-            quality_value=quality_value)
+        values = self._convert(self._quality)
         
         key_number = keynumber(root)
 
