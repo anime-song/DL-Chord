@@ -1,4 +1,4 @@
-from .const import ACCIDENTAL, ON_CHORD_SIGN, SCALE_FLAT, SCALE_SHARP, DEGREE, QUALITY_LIST
+from .const import ACCIDENTAL, ON_CHORD_SIGN, SCALE_FLAT, SCALE_SHARP, DEGREE
 from .quality import Quality, keynumber
 
 
@@ -64,32 +64,111 @@ class Chord:
     def __str__(self):
         return self._chord
 
-    def getnumber(self, norm=False):
-        """[summary]
+    def getNotes(self, norm=False, categorical=False):
+        """コードの構成音を取得します。
+
+        Parameters
+        ----------
+        norm : boolean
+            最大値で正規化するかどうか
+
+        categorical : boolean
+            12個に分解するかどうか
         
-        Returns:
-            [ndarray]: [chord number]
+        Examples
+        --------
+        >>> from dlchord import Chord
+        >>> chord = Chord("C")
+        >>> cons = chord.getNotes(categorical=False)
+        >>> print(str(cons))
+
+        [1 5 8]
+
+        >>> cons = chord.getNotes(categorical=True)
+        >>> print(str(cons))
+
+        [2. 0. 0. 0. 1. 0. 0. 1. 0. 0. 0. 0.]
+
+        ルート音 2
+        構成音 1
+        非構成音 0
+
+        Returns
+        -------
+        chord notes: [notes]
+
         """
-        return self._quality.getnumber(root=self._root, on=self._on, norm=norm)
+        return self._quality.getNotes(
+            root=self._root, on=self._on, norm=norm, categorical=categorical)
     
-    def getfeature(self):
+    def getroot(self):
+        """ルート音を取得します。
+        
+        Examples
+        --------
+        >>> from dlchord import Chord
+        >>> chord = Chord("C")
+        >>> print(chord.getroot())
+
+        1
+
+        """
         num = keynumber(self._root) + 1
         return num
 
-    def transpose(self, key):
+    def transpose(self, steps):
+        """
+        
+        Parameters
+        ----------
+            steps : int
+                移調する数
+
+
+        Examples
+        --------
+        >>> from dlchord import Chord
+        >>> chord = Chord("C")
+        >>> t_chord = chord.transpose(steps=1)
+        >>> print(str(t_chord))
+        Db
+        
+        Returns:
+            Chord : pywfd.Chord
+                移調後のコード
+        """
         root_num = keynumber(self._root)
-        root = self._scale[(root_num + key) % len(self._scale)]
+        root = self._scale[(root_num + steps) % len(self._scale)]
         on = ''
 
         if self._on is not None:
             on_num = keynumber(self._on)
-            on = ON_CHORD_SIGN + self._scale[(on_num + key) % len(self._scale)]
+            on = ON_CHORD_SIGN + \
+                self._scale[(on_num + steps) % len(self._scale)]
 
         t_chord = Chord(root + str(self._quality) + on)
 
         return t_chord
 
     def degree(self, key=0):
+        """
+        
+        Parameters
+        ----------
+            key : int
+                基準とする調
+                C = 0
+        
+        Examples
+        --------
+        >>> from dlchord import Chord
+        >>> chord = Chord("C")
+        >>> print(chord.degree(key=0)) # C調
+        I
+
+        Returns:
+            degree : str
+        """
         
         root_n = self._scale.index(self._root)
 

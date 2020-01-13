@@ -13,13 +13,11 @@ def _norm(x):
     return x
 
 
-def categorical(x, classes=12):
+def to_categorical(x, classes=12):
     y = np.zeros((classes))
-    y[x[0] - 1] = 10
+    y[x[0] - 1] = 2
     for i in range(1, len(x)):
-        y[x[i] - 1] = 5
-
-    y = np.where(y == 0, 1, y)
+        y[x[i] - 1] = 1
 
     return y
 
@@ -28,7 +26,7 @@ def keynumber(key):
     if key == '' or key is None:
         raise ValueError("Input value is invalid")
 
-    #key = _norm(key)
+    # key = _norm(key)
 
     if any((s in key) for s in ACCIDENTAL[0]):
         scale_number = SCALE_SHARP
@@ -165,7 +163,7 @@ class Quality:
 
         return np.array(values)
 
-    def getnumber(self, root='C', on=None, norm=False):
+    def getNotes(self, root='C', on=None, norm=False, categorical=False):
         
         values = self._convert(self._quality)
         
@@ -180,7 +178,9 @@ class Quality:
 
         _, idx = np.unique(values, return_index=True)
         values = values[np.sort(idx)]
-        values = categorical(values)
+
+        if categorical:
+            values = to_categorical(values)
 
         if norm:
             values = values / np.max(values)
