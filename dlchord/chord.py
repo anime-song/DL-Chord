@@ -116,9 +116,30 @@ class Chord:
         >>> chord = Chord("C/G")
         >>> print(chord.getroot())
 
-        8
+        1
         """
 
+        num = keynumber(self._root)
+
+        return num + 1
+
+    def getbass(self):
+        """ベース音を取得します。
+
+        Examples
+        --------
+        >>> from dlchord import Chord
+        >>> chord = Chord("C")
+        >>> print(chord.getbass())
+
+        1
+
+        >>> from dlchord import Chord
+        >>> chord = Chord("C/G")
+        >>> print(chord.getbass())
+
+        8
+        """
         if self._on is not None:
             num = keynumber(self._on)
         else:

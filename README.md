@@ -28,8 +28,23 @@ C
 >>> chord = Chord("C/G")
 >>> print(chord.getroot())
 
+1
+```
+
+## ベース音取得
+```python
+>>> from dlchord import Chord
+>>> chord = Chord("C")
+>>> print(chord.getbass())
+1
+
+>>> from dlchord import Chord
+>>> chord = Chord("C/G")
+>>> print(chord.getbass())
+
 8
 ```
+
 
 ## 移調
 ```python
