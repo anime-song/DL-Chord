@@ -112,9 +112,19 @@ class Chord:
 
         1
 
+        >>> from dlchord import Chord
+        >>> chord = Chord("C/G")
+        >>> print(chord.getroot())
+
+        8
         """
-        num = keynumber(self._root) + 1
-        return num
+
+        if self._on is not None:
+            num = keynumber(self._on)
+        else:
+            num = keynumber(self._root)
+
+        return num + 1
 
     def transpose(self, steps):
         """

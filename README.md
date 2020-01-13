@@ -23,6 +23,12 @@ C
 >>> chord = Chord("C")
 >>> print(chord.getroot())
 1
+
+>>> from dlchord import Chord
+>>> chord = Chord("C/G")
+>>> print(chord.getroot())
+
+8
 ```
 
 ## 移調
