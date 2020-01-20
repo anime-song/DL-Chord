@@ -62,6 +62,9 @@ class Chord:
             raise ValueError(
                 "Could not parse Chord. Invalid Chord {}".format(self.chord))
 
+    def __unicode__(self):
+        return self._chord
+        
     def __str__(self):
         return self._chord
 
