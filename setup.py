@@ -1,4 +1,6 @@
 from setuptools import setup, find_packages
+import sys
+sys.path.append("./test/")
 version = "1.2.3"
 
 
@@ -11,7 +13,7 @@ setup(
     url="https://github.com/anime-song/DL-Chord",
     keywords='music chord',
     license="MIT",
-    packages=find_packages(exclude=['test']),
+    packages=find_packages(),
     include_package_data=True,
     test_suite='test',
 )
