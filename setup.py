@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+
 version = "1.2.3"
 
 
@@ -13,5 +14,5 @@ setup(
     license="MIT",
     packages=find_packages(exclude=['test']),
     include_package_data=True,
-    test_suite='test',
+    test_suite='./test',
 )
