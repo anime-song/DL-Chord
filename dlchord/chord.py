@@ -87,6 +87,8 @@ class Chord:
                     return True
         if ON_CHORD_SIGN not in other.chord and ON_CHORD_SIGN in self.chord:
             return True
+        elif ON_CHORD_SIGN in other.chord and ON_CHORD_SIGN not in self.chord:
+            return False
 
         if self.quality.quality == LABEL_6th and (QUALITY_MINOR + LABEL_7th) in other.quality.quality:
             return True
