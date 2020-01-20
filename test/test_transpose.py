@@ -23,3 +23,7 @@ class TestChordCreations(unittest.TestCase):
         c = Chord("Am/G")
         t = c.transpose(3)
         self.assertEqual(t, Chord("Cm/Bb"))
+
+
+if __name__ == '__main__':
+    unittest.main()

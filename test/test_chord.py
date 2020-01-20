@@ -26,3 +26,6 @@ class TestChord(unittest.TestCase):
         chord = note_to_chord(["C", "E", "G", "D"])[0]
         self.assertEqual(chord, Chord("Cadd9"))
 
+
+if __name__ == '__main__':
+    unittest.main()
