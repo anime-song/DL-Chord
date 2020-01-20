@@ -12,6 +12,3 @@ install:
 
 script:
   - python setup.py
-
-os:
-  - "windows"
