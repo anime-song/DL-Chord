@@ -1,50 +1,16 @@
-from .const import CHORD_COMP_PRIORITY, TENSION
+from .const import LABEL_CHORD_PRIORITY, TENSION
 from .const import CHORD_QUALITY, CHORD_QUALITY_MAJOR
-from .const import ACCIDENTAL, ACCIDENTAL_VAL
+from .const import ACCIDENTAL
 from .const import QUALITY_SUS, QUALITY_ADD, QUALITY_MINOR_ADD
 from .const import CHORD_VALUE
 from .const import CHORD_root, CHORD_3rd, CHORD_5th
-from .const import SCALE_FLAT, SCALE_SHARP
+from .util import note_to_value, to_categorical
 import numpy as np
 
 
 def _norm(x):
     x = x.replace("+", " " + ACCIDENTAL[0][0]).replace("-", " " + ACCIDENTAL[1][0])
     return x
-
-
-def to_categorical(x, classes=12):
-    y = np.zeros((classes))
-    y[x[0] - 1] = 2
-    for i in range(1, len(x)):
-        y[x[i] - 1] = 1
-
-    return y
-
-
-def keynumber(key):
-    if key == '' or key is None:
-        raise ValueError("Input value is invalid")
-
-    # key = _norm(key)
-
-    if any((s in key) for s in ACCIDENTAL[0]):
-        scale_number = SCALE_SHARP
-    elif any((s in key) for s in ACCIDENTAL[1]):
-        scale_number = SCALE_FLAT
-    else:
-        scale_number = SCALE_FLAT
-
-    if len(key) > 2:
-        result_num = scale_number.index(key[:1]) + ACCIDENTAL_VAL[key[1]] + ACCIDENTAL_VAL[key[2]]
-    elif len(key) > 1:
-        result_num = scale_number.index(key[:1]) + ACCIDENTAL_VAL[key[1]]
-    else:
-        result_num = scale_number.index(key)
-    
-    result_num = result_num % len(SCALE_FLAT)
-
-    return result_num
 
 
 class Quality:
@@ -58,9 +24,9 @@ class Quality:
     def quality(self):
         return self._quality
     
-    def _getComponent(self, quality):
+    def _getComponents(self, quality):
         quality = _norm(quality)
-        priority = sorted(CHORD_COMP_PRIORITY.items(), key=lambda x: x[1])
+        priority = sorted(LABEL_CHORD_PRIORITY.items(), key=lambda x: x[1])
         chord_comp = []
         tension = []
         for k, v in priority:
@@ -110,7 +76,7 @@ class Quality:
     def _convert(self, quality_):
         values = []
 
-        chord_component, tension = self._getComponent(quality_)
+        chord_component, tension = self._getComponents(quality_)
         quality_name, quality_value = self._getQuality(quality_)
 
         # 3和音を追加する
@@ -157,9 +123,10 @@ class Quality:
         values = self._omit(quality_, values)
 
         for i in range(len(quality_value)):
-            for j in range(len(values)):
+            for j in reversed(range(len(values))):
                 if values[j] == CHORD_QUALITY_MAJOR[i]:
                     values[j] = values[j] + quality_value[i]
+                    break
 
         return np.array(values)
 
@@ -167,14 +134,13 @@ class Quality:
         
         values = self._convert(self._quality)
         
-        key_number = keynumber(root)
+        key_number = note_to_value(root)
 
         values = (values + key_number) % 12
-        values = np.where(values == 0, 12, values)
 
         if on is not None:
-            key_number = keynumber(on)
-            values = np.insert(values, 0, key_number + 1)
+            key_number = note_to_value(on)
+            values = np.insert(values, 0, key_number)
 
         _, idx = np.unique(values, return_index=True)
         values = values[np.sort(idx)]

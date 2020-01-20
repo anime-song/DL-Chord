@@ -1,5 +1,20 @@
+from collections import OrderedDict
+
+NORM_LIST = [
+    ["maj", "M"],
+    ["Maj", "M"],
+    ["△", "M"],
+    ["○", "dim7"],
+    ["φ", "m7-5"],
+    ["min", "m"],
+    ["♭", "b"],
+    ["♯", "#"]
+]
+
 # parse
 ACCIDENTAL = (("#", "+"), ("b", "-"))
+ACCIDENTAL_FLAT = "b"
+ACCIDENTAL_SHARP = "#"
 ACCIDENTAL_VAL = {"#": 1, "b": -1, "+": 1, "-": -1}
 ON_CHORD_SIGN = ("/")
 
@@ -7,59 +22,74 @@ ON_CHORD_SIGN = ("/")
 SCALE_FLAT = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 SCALE_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 DEGREE = ["I", "bII", "II", "bIII", "III", "IV", "bV", "V", "bVI", "VI", "bVII", "VII"]
-# quality
-CHORD_COMP_FLAT5 = "b5"
-CHORD_COMP_FLAT9 = "b9"
-CHORD_COMP_FLAT13 = "b13"
-CHORD_COMP_SHARP5 = "#5"
-CHORD_COMP_SHARP9 = "#9"
-CHORD_COMP_SHARP11 = "#11"
-CHORD_COMP_2 = "2"
-CHORD_COMP_4 = "4"
-CHORD_COMP_6 = "6"
-CHORD_COMP_7 = "7"
-CHORD_COMP_9 = "9"
-CHORD_COMP_11 = "11"
-CHORD_COMP_13 = "13"
 
-CHORD_COMP_PRIORITY = {
-    CHORD_COMP_FLAT5: 1,
-    CHORD_COMP_FLAT9: 1,
-    CHORD_COMP_FLAT13: 1,
-    CHORD_COMP_SHARP5: 1,
-    CHORD_COMP_SHARP9: 1,
-    CHORD_COMP_SHARP11: 1,
-    CHORD_COMP_2: 2,
-    CHORD_COMP_4: 2,
-    CHORD_COMP_6: 2,
-    CHORD_COMP_7: 2,
-    CHORD_COMP_9: 2,
-    CHORD_COMP_11: 2,
-    CHORD_COMP_13: 2
+# quality
+LABEL_FLAT5 = "b5"
+LABEL_FLAT9 = "b9"
+LABEL_FLAT13 = "b13"
+LABEL_SHARP5 = "#5"
+LABEL_SHARP9 = "#9"
+LABEL_SHARP11 = "#11"
+LABEL_SHARP13 = "#13"
+LABEL_2nd = "2"
+LABEL_4th = "4"
+LABEL_6th = "6"
+LABEL_7th = "7"
+LABEL_9th = "9"
+LABEL_11th = "11"
+LABEL_13th = "13"
+
+LABEL_CHORD_PRIORITY = {
+    LABEL_FLAT5: 1,
+    LABEL_FLAT9: 1,
+    LABEL_FLAT13: 1,
+    LABEL_SHARP5: 1,
+    LABEL_SHARP9: 1,
+    LABEL_SHARP11: 1,
+    LABEL_SHARP13: 1,
+    LABEL_2nd: 2,
+    LABEL_4th: 2,
+    LABEL_6th: 2,
+    LABEL_7th: 2,
+    LABEL_9th: 2,
+    LABEL_11th: 2,
+    LABEL_13th: 2,
 }
 
 TENSION = [
-    CHORD_COMP_FLAT5,
-    CHORD_COMP_FLAT9,
-    CHORD_COMP_FLAT13,
-    CHORD_COMP_SHARP5,
-    CHORD_COMP_SHARP9,
-    CHORD_COMP_SHARP11,
-    CHORD_COMP_6,
-    CHORD_COMP_9,
-    CHORD_COMP_11,
-    CHORD_COMP_13]
+    LABEL_FLAT5,
+    LABEL_FLAT9,
+    LABEL_FLAT13,
+    LABEL_SHARP5,
+    LABEL_SHARP9,
+    LABEL_SHARP11,
+    LABEL_SHARP13,
+    LABEL_6th,
+    LABEL_9th,
+    LABEL_11th,
+    LABEL_13th]
 
-CHORD_root = 1
-CHORD_2nd = 3
-CHORD_3rd = 5
-CHORD_4th = 6
-CHORD_5th = 8
-CHORD_6th = 10
-CHORD_7th = 11
-CHORD_9th = 3
-CHORD_11th = 6
-CHORD_13th = 10
+
+CHORD_flat5 = 6
+CHORD_flat9 = 1
+CHORD_flat13 = 8
+CHORD_sharp5 = 8
+CHORD_sharp9 = 3
+CHORD_sharp11 = 6
+CHORD_sharp13 = 10
+CHORD_major7 = 11
+
+CHORD_root = 0
+CHORD_2nd = 2
+CHORD_3rd = 4
+CHORD_4th = 5
+CHORD_5th = 7
+CHORD_6th = 9
+CHORD_7th = 10
+CHORD_9th = 2
+CHORD_11th = 5
+CHORD_13th = 9
+
 
 CHORD_VALUE = {
     "1": (-1, CHORD_root),
@@ -74,6 +104,7 @@ CHORD_VALUE = {
     "13": (5, CHORD_13th)
 }
 
+QUALITY_MAJ = "maj"
 QUALITY_MINOR = "m"
 QUALITY_MAJOR = "M"
 QUALITY_MINOR_MAJOR = "mM"
@@ -97,3 +128,63 @@ CHORD_QUALITY = {
     QUALITY_MINOR_ADD: (0, -1, 0, 0),
     QUALITY_SUS: (0, 0, 0, 0),
 }
+
+CHORD_MAP = OrderedDict((
+    # chords consist of 2 notes
+    ('5', (0, 7)),
+    # 3 notes
+    ('', (0, 4, 7)),
+    ('m', (0, 3, 7)),
+    ('dim', (0, 3, 6)),
+    ('aug', (0, 4, 8)),
+    ('sus2', (0, 2, 7)),
+    ('sus4', (0, 5, 7)),
+    # 4 notes
+    ('6', (0, 4, 7, 9)),
+    ('7', (0, 4, 7, 10)),
+    ('M7', (0, 4, 7, 11)),
+    ('m6', (0, 3, 7, 9)),
+    ('m7', (0, 3, 7, 10)),
+    ('mM7', (0, 3, 7, 11)),
+    ('7-5', (0, 4, 6, 10)),
+    ('m7-5', (0, 3, 6, 10)),
+    ('aug7', (0, 4, 8, 10)),
+    ('augM7', (0, 4, 8, 11)),
+    ('7sus4', (0, 5, 7, 10)),
+    ('dim7', (0, 3, 6, 9)),
+    ('add9', (0, 4, 7, 2)),
+    ('add11', (0, 4, 7, 5)),
+    ('madd9', (0, 3, 7, 2)),
+
+    # 5 notes
+    ('69', (0, 4, 7, 9, 2)),
+    ('7(9)', (0, 4, 7, 10, 2)),
+    ('M7(9)', (0, 4, 7, 11, 2)),
+    ('m69', (0, 3, 7, 8, 2)),
+    ('m7(9)', (0, 3, 7, 10, 2)),
+    ('m7(11)', (0, 3, 7, 10, 5)),
+    ('m7(13)', (0, 3, 7, 10, 9)),
+    ('7(b9)', (0, 4, 7, 10, 1)),
+    ('7(#9)', (0, 4, 7, 10, 3)),
+    ('7(#11)', (0, 4, 7, 10, 6)),
+    ('M7(#11)', (0, 4, 7, 11, 10)),
+    ('7-5(9)', (0, 4, 6, 10, 2)),
+    ('7(b13)', (0, 4, 7, 10, 8)),
+    ('7-5(#9)', (0, 4, 6, 10, 3)),
+    ('m7(b9)', (0, 3, 7, 10, 1)),
+    ('aug9', (0, 4, 8, 10, 2)),
+
+    # 6 notes
+    ('7(9, 11)', (0, 4, 7, 10, 2, 5)),
+    ('7(9, #11)', (0, 4, 7, 10, 2, 6)),
+    ('7(b9, 13)', (0, 4, 7, 10, 1, 9)),
+    ('7(b9, b13)', (0, 4, 7, 10, 1, 8)),
+    ('7(b9, #9)', (0, 4, 7, 10, 1, 3)),
+    ('7(b9, #11)', (0, 4, 7, 10, 1, 6)),
+    ('7(#9, 13)', (0, 4, 7, 10, 3, 9)),
+    ('7(#9, b13)', (0, 4, 7, 10, 3, 8)),
+    ('7(#9, #11)', (0, 4, 7, 10, 3, 6)),
+    ('7(#11, 13)', (0, 4, 7, 10, 6, 9)),
+    ('M7(9, 11)', (0, 4, 7, 11, 2, 5)),
+
+))

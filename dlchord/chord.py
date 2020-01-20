@@ -1,15 +1,14 @@
-from .const import ACCIDENTAL, ON_CHORD_SIGN, SCALE_FLAT, SCALE_SHARP, DEGREE
-from .quality import Quality, keynumber
+from .const import ACCIDENTAL, ON_CHORD_SIGN
+from .const import SCALE_FLAT, SCALE_SHARP, DEGREE
+from .const import NORM_LIST
+from .quality import Quality
+from .util import note_to_value
 
 
 def normalize(chord):
-    return chord.replace(
-        "maj",
-        "M").replace(
-        "△",
-        "M").replace(
-            "○",
-        "dim7").replace("φ", "m7-5")
+    for key in NORM_LIST:
+        chord.replace(key[0], key[1])
+    return chord
 
 
 def parse(chord):
@@ -28,10 +27,10 @@ def parse(chord):
         
         if chord[1] in ACCIDENTAL[0]:
             scale = SCALE_SHARP
-            root = SCALE_SHARP[keynumber(root)]
+            root = SCALE_SHARP[note_to_value(root)]
         else:
             scale = SCALE_FLAT
-            root = SCALE_FLAT[keynumber(root)]
+            root = SCALE_FLAT[note_to_value(root)]
 
     else:
         scale = SCALE_FLAT
@@ -51,7 +50,9 @@ def parse(chord):
 
 
 class Chord:
-
+    """コードを処理するクラス
+    
+    """
     def __init__(self, chord):
         chord = normalize(chord)
         self._chord = chord
@@ -59,10 +60,81 @@ class Chord:
       
         if self._root not in self._scale:
             raise ValueError(
-                "The Chord could not be parsed. It may not be in the correct format.")
+                "Could not parse Chord. Invalid Chord {}".format(self.chord))
 
     def __str__(self):
         return self._chord
+
+    def __repr__(self):
+        return "<Chord: {}>".format(self._chord)
+
+    def __eq__(self, value):
+        if not isinstance(value, Chord):
+            raise TypeError("Cannot compare Chord object with {} object".format(type(value)))
+
+        if not (value.getNotes(categorical=True) == self.getNotes(categorical=True)).all():
+            return False
+        
+        return True
+
+    def __ne__(self, value):
+        return not self.__eq__(value)
+
+    @property
+    def chord(self):
+        return self._chord
+
+    @property
+    def quality(self):
+        return self._quality
+
+    @property
+    def root(self):
+        """ルート音を取得します。
+
+        Examples
+        --------
+        >>> from dlchord import Chord
+        >>> chord = Chord("C")
+        >>> print(chord.root())
+
+        0
+
+        >>> from dlchord import Chord
+        >>> chord = Chord("C/G")
+        >>> print(chord.root())
+
+        0
+        """
+
+        num = note_to_value(self._root)
+
+        return num
+
+    @property
+    def bass(self):
+        """ベース音を取得します。
+
+        Examples
+        --------
+        >>> from dlchord import Chord
+        >>> chord = Chord("C")
+        >>> print(chord.bass())
+
+        0
+
+        >>> from dlchord import Chord
+        >>> chord = Chord("C/G")
+        >>> print(chord.bass())
+
+        7
+        """
+        if self._on is not None:
+            num = note_to_value(self._on)
+        else:
+            num = note_to_value(self._root)
+
+        return num
 
     def getNotes(self, norm=False, categorical=False):
         """コードの構成音を取得します。
@@ -82,14 +154,14 @@ class Chord:
         >>> cons = chord.getNotes(categorical=False)
         >>> print(str(cons))
 
-        [1 5 8]
+        [0 4 7]
 
         >>> cons = chord.getNotes(categorical=True)
         >>> print(str(cons))
 
         [2. 0. 0. 0. 1. 0. 0. 1. 0. 0. 0. 0.]
 
-        ルート音 2
+        ベース音 2
         構成音 1
         非構成音 0
 
@@ -100,55 +172,9 @@ class Chord:
         """
         return self._quality.getNotes(
             root=self._root, on=self._on, norm=norm, categorical=categorical)
-    
-    def getroot(self):
-        """ルート音を取得します。
-        
-        Examples
-        --------
-        >>> from dlchord import Chord
-        >>> chord = Chord("C")
-        >>> print(chord.getroot())
-
-        1
-
-        >>> from dlchord import Chord
-        >>> chord = Chord("C/G")
-        >>> print(chord.getroot())
-
-        1
-        """
-
-        num = keynumber(self._root)
-
-        return num + 1
-
-    def getbass(self):
-        """ベース音を取得します。
-
-        Examples
-        --------
-        >>> from dlchord import Chord
-        >>> chord = Chord("C")
-        >>> print(chord.getbass())
-
-        1
-
-        >>> from dlchord import Chord
-        >>> chord = Chord("C/G")
-        >>> print(chord.getbass())
-
-        8
-        """
-        if self._on is not None:
-            num = keynumber(self._on)
-        else:
-            num = keynumber(self._root)
-
-        return num + 1
 
     def transpose(self, steps):
-        """
+        """コードを移調します。
         
         Parameters
         ----------
@@ -168,12 +194,12 @@ class Chord:
             Chord : pywfd.Chord
                 移調後のコード
         """
-        root_num = keynumber(self._root)
+        root_num = note_to_value(self._root)
         root = self._scale[(root_num + steps) % len(self._scale)]
         on = ''
 
         if self._on is not None:
-            on_num = keynumber(self._on)
+            on_num = note_to_value(self._on)
             on = ON_CHORD_SIGN + \
                 self._scale[(on_num + steps) % len(self._scale)]
 
