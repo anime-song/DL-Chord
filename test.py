@@ -1,3 +1,3 @@
 import dlchord
 
-print(dlchord.note_to_chord(["B", "Db", "F", "A"], scale="#"))
+print(dlchord.note_to_chord(["C",], scale="#"))
