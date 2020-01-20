@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 import unittest
 
 from dlchord import Chord
 
 
-class TestChordCreations(unittest.TestCase):
+class TestTranspose(unittest.TestCase):
     def test_transpose_zero(self):
         c = Chord("Am")
         t = c.transpose(0)

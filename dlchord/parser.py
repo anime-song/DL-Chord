@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .const import ACCIDENTAL_FLAT, ACCIDENTAL_SHARP
 from .const import SCALE_FLAT, SCALE_SHARP
 from .const import CHORD_MAP

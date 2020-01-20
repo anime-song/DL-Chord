@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .const import ACCIDENTAL, ACCIDENTAL_VAL
 from .const import SCALE_FLAT, SCALE_SHARP
 from .parser import find_chord

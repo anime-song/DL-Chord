@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .const import ACCIDENTAL, ON_CHORD_SIGN
 from .const import SCALE_FLAT, SCALE_SHARP, DEGREE
 from .const import NORM_LIST

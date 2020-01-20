@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .const import LABEL_CHORD_PRIORITY, TENSION
 from .const import CHORD_QUALITY, CHORD_QUALITY_MAJOR
 from .const import ACCIDENTAL
