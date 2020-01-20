@@ -72,17 +72,16 @@ def find_chord(notes, bass, scale="b"):
             
             chord_list.append(chord.Chord(root + quality + onchord))
 
-    if not match:
-        for rotated in _rotate_notes(rel_notes):
-            rel_rotated_notes = [(note - rotated[0]) % 12 for note in rotated]
-            quality, match = _find_quality(rel_rotated_notes)
-            if match:
-                root_num = (rotated[0] + bass) % 12
-                root = scale[root_num]
-                if root_num != bass:
-                    onchord = ON_CHORD_SIGN + scale[bass]
-                else:
-                    onchord = ""
-                chord_list.append(chord.Chord(root + quality + onchord))
+    for rotated in _rotate_notes(rel_notes):
+        rel_rotated_notes = [(note - rotated[0]) % 12 for note in rotated]
+        quality, match = _find_quality(rel_rotated_notes)
+        if match:
+            root_num = (rotated[0] + bass) % 12
+            root = scale[root_num]
+            if root_num != bass:
+                onchord = ON_CHORD_SIGN + scale[bass]
+            else:
+                onchord = ""
+            chord_list.append(chord.Chord(root + quality + onchord))
 
     return sorted(chord_list, reverse=True)

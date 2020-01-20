@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .const import ACCIDENTAL, ACCIDENTAL_VAL
+from .const import ACCIDENTAL, ACCIDENTAL_VAL, ACCIDENTAL_FLAT, ACCIDENTAL_SHARP
 from .const import SCALE_FLAT, SCALE_SHARP
 from .parser import find_chord
 import numpy as np
@@ -85,6 +85,21 @@ def note_to_value(note):
     result_num = result_num % len(SCALE_FLAT)
 
     return result_num
+
+
+def value_to_note(value, scale="b"):
+    if value is None or not type(value) is int:
+        raise ValueError("Invalid value {}".format(value))
+
+    value %= 12
+    if scale == ACCIDENTAL_FLAT:
+        return SCALE_FLAT[value]
+
+    elif scale == ACCIDENTAL_SHARP:
+        return SCALE_SHARP[value]
+
+    else:
+        raise ValueError("value must be sharp or flat")
 
 
 def to_categorical(x, classes=12):

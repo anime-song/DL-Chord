@@ -2,9 +2,10 @@
 from .const import ACCIDENTAL, ON_CHORD_SIGN
 from .const import SCALE_FLAT, SCALE_SHARP, DEGREE
 from .const import NORM_LIST
-from .const import QUALITY_AUG
+from .const import QUALITY_AUG, QUALITY_MINOR
+from .const import LABEL_5th, LABEL_6th, LABEL_7th
 from .quality import Quality
-from .util import note_to_value
+from .util import note_to_value, value_to_note
 
 
 def normalize(chord):
@@ -77,11 +78,20 @@ class Chord:
         if not isinstance(other, Chord):
             raise TypeError("Cannot compare Chord object with {} object".format(type(other)))
         
-        if self.quality.quality == QUALITY_AUG and other.quality.quality:
+        if self.quality.quality == LABEL_5th:
+            return True
+
+        if self.quality.quality == QUALITY_AUG and other.quality.quality == QUALITY_AUG:
             if ON_CHORD_SIGN in other.chord and ON_CHORD_SIGN in self.chord:
                 if (other.bass - other.root) % 12 == 6:
                     return True
         if ON_CHORD_SIGN not in other.chord and ON_CHORD_SIGN in self.chord:
+            return True
+
+        if self.quality.quality == LABEL_6th and (QUALITY_MINOR + LABEL_7th) in other.quality.quality:
+            return True
+
+        if self.bass in Chord(value_to_note(self.root) + self.quality.quality).getNotes():
             return True
 
         return False
