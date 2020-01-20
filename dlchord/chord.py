@@ -2,6 +2,7 @@
 from .const import ACCIDENTAL, ON_CHORD_SIGN
 from .const import SCALE_FLAT, SCALE_SHARP, DEGREE
 from .const import NORM_LIST
+from .const import QUALITY_AUG
 from .quality import Quality
 from .util import note_to_value
 
@@ -71,6 +72,22 @@ class Chord:
 
     def __repr__(self):
         return "<Chord: {}>".format(self._chord)
+
+    def __lt__(self, other):
+        if not isinstance(other, Chord):
+            raise TypeError("Cannot compare Chord object with {} object".format(type(other)))
+        
+        if self.quality.quality == QUALITY_AUG and other.quality.quality:
+            if ON_CHORD_SIGN in other.chord and ON_CHORD_SIGN in self.chord:
+                if (other.bass - other.root) % 12 == 6:
+                    return True
+        if ON_CHORD_SIGN not in other.chord and ON_CHORD_SIGN in self.chord:
+            return True
+
+        return False
+
+    def __ge__(self, other):
+        return not self.__le__(other)
 
     def __eq__(self, value):
         if not isinstance(value, Chord):

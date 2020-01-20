@@ -20,8 +20,8 @@ class TestChord(unittest.TestCase):
         self.assertEqual(chord, Chord("C7(9)"))
 
     def test_eleventh(self):
-        chord = note_to_chord(["C", "E", "G", "Bb", "D", "F"])[0]
-        self.assertEqual(chord, Chord("C7(9, 11)"))
+        chord = note_to_chord(["C", "E", "G", "Bb", "D", "F"])
+        self.assertEqual(chord[0], Chord("C7(9, 11)"))
 
     def test_add9(self):
         chord = note_to_chord(["C", "E", "G", "D"])[0]
