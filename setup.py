@@ -1,12 +1,17 @@
 from setuptools import setup, find_packages
+version = "1.2.1"
+
 
 setup(
     name="dlchord",
-    version="1.2.0",
+    version=version,
     description="chord library",
     install_requires=["numpy"],
     author="anime-song",
-    url="https://github.com/anime-song/dlchord",
+    url="https://github.com/anime-song/DL-Chord",
+    keywords='music chord',
     license="MIT",
-    packages=["dlchord"],
+    packages=find_packages(exclude=['test']),
+    include_package_data=True,
+    test_suite='test',
 )
