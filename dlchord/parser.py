@@ -2,10 +2,7 @@
 from .const import ACCIDENTAL_FLAT, ACCIDENTAL_SHARP
 from .const import SCALE_FLAT, SCALE_SHARP
 from .const import CHORD_MAP
-from .const import CHORD_3rd, CHORD_5th
-from .const import LABEL_5th
 from .const import ON_CHORD_SIGN
-from .const import QUALITY_AUG
 from . import chord
 
 
@@ -51,6 +48,7 @@ def find_chord(notes, bass, scale="b"):
         raise ValueError("scale must be sharp or flat.")
 
     chord_list = []
+    add_list = []
     root = ""
     quality = ""
 
@@ -61,30 +59,39 @@ def find_chord(notes, bass, scale="b"):
         rel_rotated_notes = [(note - rotated[0]) % 12 for note in rotated]
         quality, match = _find_quality(rel_rotated_notes)
 
-        if match:
-            root_num = (rotated[0] + bass) % 12
-            root = scale[root_num]
-            if root_num != bass:
-                onchord = ON_CHORD_SIGN + scale[bass]
-            else:
-                onchord = ""
-            
-            for q in quality:
+        root_num = (rotated[0] + bass) % 12
+        root = scale[root_num]
+        if root_num != bass:
+            onchord = ON_CHORD_SIGN + scale[bass]
+        else:
+            onchord = ""
+        
+        for q in quality:
+            if match:
                 chord_list.append(chord.Chord(root + q + onchord))
+            else:
+                add_list.append(chord.Chord(root + q + onchord))
 
     for rotated in _rotate_notes(rel_notes):
         rel_rotated_notes = [(note - rotated[0]) % 12 for note in rotated]
         quality, match = _find_quality(rel_rotated_notes)
 
-        if match:
-            root_num = (rotated[0] + bass) % 12
-            root = scale[root_num]
-            if root_num != bass:
-                onchord = ON_CHORD_SIGN + scale[bass]
-            else:
-                onchord = ""
+        root_num = (rotated[0] + bass) % 12
+        root = scale[root_num]
+        if root_num != bass:
+            onchord = ON_CHORD_SIGN + scale[bass]
+        else:
+            onchord = ""
 
-            for q in quality:
+        for q in quality:
+            if match:
                 chord_list.append(chord.Chord(root + q + onchord))
+            else:
+                add_list.append(chord.Chord(root + q + onchord))
 
-    return sorted(chord_list, reverse=True)
+    chord_list = sorted(chord_list, reverse=True)
+
+    if not chord_list:
+        chord_list = sorted(add_list, reverse=True)
+
+    return chord_list
