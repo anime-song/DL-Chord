@@ -38,12 +38,12 @@ $ pip install dlchord
 ```python
 >>> from dlchord import Chord
 >>> chord = Chord("C")
->>> print(chord.root())
+>>> print(chord.root)
 0
 
 >>> from dlchord import Chord
 >>> chord = Chord("C/G")
->>> print(chord.root())
+>>> print(chord.root)
 
 0
 ```
@@ -52,12 +52,12 @@ $ pip install dlchord
 ```python
 >>> from dlchord import Chord
 >>> chord = Chord("C")
->>> print(chord.bass())
+>>> print(chord.bass)
 0
 
 >>> from dlchord import Chord
 >>> chord = Chord("C/G")
->>> print(chord.bass())
+>>> print(chord.bass)
 
 7
 ```
