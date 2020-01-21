@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from dlchord import Chord
+from dlchord.chord import Chord
 from dlchord.util import note_to_chord
 
 
@@ -46,6 +46,10 @@ class TestChord(unittest.TestCase):
     def test_slash3(self):
         chord = note_to_chord(["C", "Gb", "Bb", "D"])[0]
         self.assertEqual(chord, Chord("Gbaug/C"))
+
+    def test_7th_integer(self):
+        chord = note_to_chord([0, 4, 7, 10])[0]
+        self.assertEqual(chord, Chord("C7"))
 
 
 if __name__ == '__main__':

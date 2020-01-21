@@ -131,7 +131,7 @@ class Quality:
 
         return np.array(values)
 
-    def getNotes(self, root='C', on=None, norm=False, categorical=False):
+    def getNotes(self, root='C', on=None, categorical=False):
         
         values = self._convert(self._quality)
         
@@ -148,8 +148,5 @@ class Quality:
 
         if categorical:
             values = to_categorical(values)
-
-        if norm:
-            values = values / np.max(values)
 
         return values

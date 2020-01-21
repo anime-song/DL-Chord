@@ -111,7 +111,7 @@ class Chord:
         if not isinstance(value, Chord):
             raise TypeError("Cannot compare Chord object with {} object".format(type(value)))
 
-        if not (value.getNotes(categorical=True) == self.getNotes(categorical=True)).all():
+        if not all(value.getNotes(categorical=True) == self.getNotes(categorical=True)):
             return False
         
         return True
@@ -175,14 +175,11 @@ class Chord:
 
         return num
 
-    def getNotes(self, norm=False, categorical=False):
+    def getNotes(self, categorical=False):
         """コードの構成音を取得します。
 
         Parameters
         ----------
-        norm : boolean
-            最大値で正規化するかどうか
-
         categorical : boolean
             12個に分解するかどうか
         
@@ -209,8 +206,32 @@ class Chord:
         chord notes: [notes]
 
         """
-        return self._quality.getNotes(
-            root=self._root, on=self._on, norm=norm, categorical=categorical)
+        notes = self._quality.getNotes(root=self._root, on=self._on, categorical=categorical)
+        return notes
+
+    def components(self):
+        """コードの構成音を文字で取得します。
+
+        Examples
+        --------
+        >>> from dlchord import Chord
+        >>> chord = Chord("C")
+        >>> comp = chord.components()
+        >>> comp
+
+        ["C", "E", "G"]
+
+        >>> chord = Chord("C#")
+        >>> comp = chord.components()
+        >>> comp
+
+        ["C#", "F", "G#"]
+
+        """
+        notes = self.getNotes()
+        comp = [self._scale[note] for note in notes]
+
+        return comp
 
     def transpose(self, steps):
         """コードを移調します。
