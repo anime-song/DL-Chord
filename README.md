@@ -2,8 +2,14 @@
 [![PyPI](https://img.shields.io/pypi/v/dlchord.svg)](https://pypi.python.org/pypi/dlchord)
 [![Build Status](https://travis-ci.com/anime-song/DL-Chord.svg?branch=master)](https://travis-ci.com/anime-song/DL-Chord)
 ## 概要
-コードを解析するライブラリ。
-コード構成音の解析や、移調、ディグリーなどが使用可能です。
+和音を解析するライブラリ。
+
+以下のようなことができます。
+
+- 構成音の解析
+- 移調
+- ディーグリー
+- 構成音からコード検査
 
 ## インストール
 ```sh
