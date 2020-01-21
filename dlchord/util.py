@@ -11,7 +11,7 @@ def note_to_chord(notes, scale="b"):
     Parameters
     ----------
 
-    notes : list
+    notes : list (int or str)
         構成音のリスト
 
     scale : str
@@ -25,6 +25,11 @@ def note_to_chord(notes, scale="b"):
     >>> chords
     [<Chord : C>]
 
+    >>> from dlchord import note_to_chord
+    >>> chords = note_to_chord([0, 4, 7])
+    >>> chords
+    [<Chord: C>]
+
     >>> chords = note_to_chord(["B", "Db", "F", "A"])
     >>> chords
     [<Chord: Faug/B>, <Chord: Dbaug/B>, <Chord: Aaug/B>]
@@ -33,7 +38,8 @@ def note_to_chord(notes, scale="b"):
     >>> chords
     [<Chord: Faug/B>, <Chord: C#aug/B>, <Chord: Aaug/B>]
     """
-    if not notes:
+    notes = list(notes)
+    if not list(notes):
         raise ValueError("Please specify notes which consist a chord.")
     
     norm_notes = []
@@ -41,11 +47,11 @@ def note_to_chord(notes, scale="b"):
     for note in notes:
         if type(note) is str:
             norm_notes.append(note_to_value(note))
-        elif type(note) is int:
-            norm_notes.append(note % 12)
         else:
-            raise ValueError(
-                "notes must be int or str.")
+            if type(note) is int or isinstance(note, np.intc):
+                norm_notes.append(note % 12)
+            else:
+                raise ValueError("notes must be an integer or string.")
 
     bass = norm_notes[0]
 
@@ -88,7 +94,7 @@ def note_to_value(note):
 
 
 def value_to_note(value, scale="b"):
-    if value is None or not type(value) is int:
+    if value is None or not any([type(value) is int, isinstance(value, np.intc)]):
         raise ValueError("Invalid value {}".format(value))
 
     value %= 12
