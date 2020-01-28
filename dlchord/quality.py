@@ -50,13 +50,14 @@ class Quality:
                 quality = quality.replace(k, "")
 
         tension_value = [CHORD_VALUE.get(x) for x in tension]
-        max_tension_value = sorted(tension_value, key=lambda x: x[0])[0][0]
+        if tension_value:
+            max_tension_value = sorted(tension_value, key=lambda x: x[0])[0][0]
 
-        if all((quality_name != q) for q in [QUALITY_ADD, QUALITY_MINOR_ADD]):
-            for v in CHORD_VALUE.values():
-                if v[0] < max_tension_value:
-                    if v[0] > 1:
-                        tension.append(v[0])
+            if all((quality_name != q) for q in [QUALITY_ADD, QUALITY_MINOR_ADD]):
+                for v in CHORD_VALUE.values():
+                    if v[0] < max_tension_value:
+                        if v[0] > 1:
+                            tension.append(v[0])
 
         for k, v in priority:
             if k in add_tension:
