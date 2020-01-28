@@ -19,6 +19,18 @@ class TestChord(unittest.TestCase):
         chord = note_to_chord(["C", "E", "G", "B"])[0]
         self.assertEqual(chord, Chord("CM7"))
 
+    def test_major9th(self):
+        chord = note_to_chord(["C", "E", "G", "B", "D"])[0]
+        self.assertEqual(chord, Chord("CM7(9)"))
+
+    def test_major11th(self):
+        chord = note_to_chord(["C", "E", "G", "B", "D", "F"])[0]
+        self.assertEqual(chord, Chord("CM7(9, 11)"))
+
+    def test_major7thflat5(self):
+        chord = note_to_chord(["C", "E", "Ab", "B"])[0]
+        self.assertEqual(chord, Chord("CM7-5"))
+
     def test_7th(self):
         chord = note_to_chord(["C", "E", "G", "Bb"])[0]
         self.assertEqual(chord, Chord("C7"))
