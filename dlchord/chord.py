@@ -96,8 +96,11 @@ class Chord:
         elif ON_CHORD_SIGN in other.chord and ON_CHORD_SIGN not in self.chord:
             return False
 
-        if self.quality.quality == LABEL_6th and (QUALITY_MINOR + LABEL_7th) in other.quality.quality:
+        if LABEL_6th in self.quality.quality and (QUALITY_MINOR + LABEL_7th) in other.quality.quality:
             return True
+
+        elif (QUALITY_MINOR + LABEL_7th) in self.quality.quality and LABEL_6th in other.quality.quality:
+            return False
 
         if self.bass in Chord(value_to_note(self.root) + self.quality.quality).getNotes():
             return True
