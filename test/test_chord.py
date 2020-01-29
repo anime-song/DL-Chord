@@ -66,7 +66,13 @@ class TestChord(unittest.TestCase):
     def test_omit1(self):
         chord = note_to_chord(["C", "E", "Bb", "D"])[0]
         self.assertEqual(chord, Chord("C7(9)"))
-        
+
+    def test_form(self):
+        self.assertEqual(Chord("Cm9"), Chord("Cm7(9)"))
+    
+    def test_form2(self):
+        self.assertEqual(Chord("C9"), Chord("C7(9)"))
+
 
 if __name__ == '__main__':
     unittest.main()

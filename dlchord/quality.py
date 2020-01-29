@@ -54,10 +54,10 @@ class Quality:
             max_tension_value = sorted(tension_value, key=lambda x: x[0])[0][0]
 
             if all((quality_name != q) for q in [QUALITY_ADD, QUALITY_MINOR_ADD]):
-                for v in CHORD_VALUE.values():
+                for k, v in CHORD_VALUE.items():
                     if v[0] < max_tension_value:
                         if v[0] > 1:
-                            tension.append(str(v[0]))
+                            tension.append(str(k))
 
         for k, v in priority:
             if k in add_tension:
@@ -83,30 +83,36 @@ class Quality:
         
         return quality_name, quality_value
 
-    def _omit(self, quality_, values):
-        values_ = values
-        
-        if quality_.find("omit") != -1:
-            omit_ = quality_.split("omit")[-1].replace("(", "").replace(")", "")
+    def _find_omit(self, quality):
+        norm_quality = quality
+
+        if quality.find("omit") != -1:
+            norm_quality = quality.split("omit")[0]
+            omit_ = quality.split("omit")[-1].replace("(", "").replace(")", "")
             omit_num = list(omit_)
 
-            omit_index = []
-            for o in omit_num:
-                if o == "1":
-                    omit_index.append(values_[0])
-                elif o == "3":
-                    omit_index.append(values_[1])
-                elif o == "5":
-                    omit_index.append(values_[2])
+        return norm_quality, omit_num
+        
+    def _omit(self, omit_num, values):
+        values_ = values
+        omit_index = []
+        for o in omit_num:
+            if o == "1":
+                omit_index.append(values_[0])
+            elif o == "3":
+                omit_index.append(values_[1])
+            elif o == "5":
+                omit_index.append(values_[2])
 
-            for idx in omit_index:
-                values_.remove(idx)
+        for idx in omit_index:
+            values_.remove(idx)
 
         return values_
     
     def _convert(self, quality_):
         values = []
 
+        quality_, omit_num = self._find_omit(quality_)
         quality_name, quality_value = self._getQuality(quality_)
         tension, altered_tension = self._getComponents(quality_, quality_name=quality_name)
 
@@ -142,7 +148,7 @@ class Quality:
         quality_value = np.array(quality_value)
 
         # 省略音
-        values = self._omit(quality_, values)
+        values = self._omit(omit_num, values)
 
         return np.array(values)
 
