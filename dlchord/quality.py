@@ -85,6 +85,7 @@ class Quality:
 
     def _find_omit(self, quality):
         norm_quality = quality
+        omit_num = []
 
         if quality.find("omit") != -1:
             norm_quality = quality.split("omit")[0]
