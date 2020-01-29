@@ -35,7 +35,7 @@ class Quality:
             try:
                 add_tension = [c.strip() for c in match_tension[0].strip('()').split(",")]
             except ValueError:
-                raise ValueError("Invalid Chord.")     
+                raise ValueError("Invalid Chord.")
 
         priority = sorted(LABEL_CHORD_PRIORITY.items(), key=lambda x: x[1])
         tension = []
@@ -57,7 +57,7 @@ class Quality:
                 for v in CHORD_VALUE.values():
                     if v[0] < max_tension_value:
                         if v[0] > 1:
-                            tension.append(v[0])
+                            tension.append(str(v[0]))
 
         for k, v in priority:
             if k in add_tension:
@@ -65,8 +65,9 @@ class Quality:
                     altered_tension.append(k)
                 else:
                     tension.append(k)
-
-        tension = sorted(set(tension), key=lambda x: CHORD_VALUE.get(x)[0])
+        
+        if tension:
+            tension = sorted(set(tension), key=lambda x: CHORD_VALUE.get(x)[0])
 
         return tension, altered_tension
 
