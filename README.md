@@ -86,6 +86,18 @@ $ pip install dlchord
 I
 ```
 
+## コード最適化
+```python
+>>> from dlchord import Chord
+>>> chord = Chord("E/Ab")
+>>> chord.modify()
+E/G#
+
+>>> chord = Chord("AM7/F#")
+>>> chord.modify()
+F#m7(9)
+```
+
 
 ## 構成音取得
 ```python

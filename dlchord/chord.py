@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from .const import ACCIDENTAL, ON_CHORD_SIGN
-from .const import SCALE_FLAT, SCALE_SHARP, DEGREE
+from .const import ACCIDENTAL, ON_CHORD_SIGN, ACCIDENTAL_FLAT, ACCIDENTAL_SHARP
+from .const import SCALE_FLAT, SCALE_SHARP, SCALE, DEGREE
 from .const import NORM_LIST
 from .const import QUALITY_AUG, QUALITY_MINOR, QUALITY_SUS
 from .const import LABEL_5th, LABEL_6th, LABEL_7th
 from .quality import Quality
-from .util import note_to_value, value_to_note
+from .util import note_to_value, value_to_note, note_to_chord
 
 
 def normalize(chord):
@@ -30,13 +30,15 @@ def parse(chord):
         
         if chord[1] in ACCIDENTAL[0]:
             scale = SCALE_SHARP
-            root = SCALE_SHARP[note_to_value(root)]
-        else:
+            
+        elif chord[1] in ACCIDENTAL[1]:
             scale = SCALE_FLAT
-            root = SCALE_FLAT[note_to_value(root)]
-
+        else:
+            scale = SCALE[chord[0]]
+        
+        root = scale[note_to_value(root)]
     else:
-        scale = SCALE_FLAT
+        scale = SCALE[chord[0]]
         root = chord[:1]
         rest = chord[1:]
 
@@ -64,6 +66,11 @@ class Chord:
         if self._root not in self._scale:
             raise ValueError(
                 "Could not parse Chord. Invalid Chord {}".format(self.chord))
+
+        if SCALE_SHARP == self._scale:
+            self._scale_sig = ACCIDENTAL_SHARP
+        else:
+            self._scale_sig = ACCIDENTAL_FLAT
 
     def __unicode__(self):
         return self._chord
@@ -254,7 +261,7 @@ class Chord:
         Db
         
         Returns:
-            Chord : pywfd.Chord
+            Chord : Chord
                 移調後のコード
         """
         root_num = note_to_value(self._root)
@@ -296,3 +303,24 @@ class Chord:
         on = ON_CHORD_SIGN + self._on if self._on is not None else ""
 
         return degr + str(self._quality) + on
+
+    def modify(self):
+        """コードを修正します。
+
+        Examples
+        --------
+        >>> from dlchord import Chord
+        >>> chord = Chord("E/Ab")
+        >>> chord.modify()
+        E/G#
+
+        >>> chord = Chord("AM7/F#")
+        >>> chord.modify()
+        F#m7(9)
+
+        Returns:
+            chord : Chord
+        """
+
+        chord = note_to_chord(self.getNotes(), scale=self._scale_sig)[0]
+        return chord

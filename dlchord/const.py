@@ -22,6 +22,15 @@ ON_CHORD_SIGN = ("/")
 # 
 SCALE_FLAT = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 SCALE_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+SCALE = {
+    "C": SCALE_FLAT,
+    "D": SCALE_SHARP,
+    "E": SCALE_SHARP,
+    "F": SCALE_FLAT,
+    "G": SCALE_SHARP,
+    "A": SCALE_SHARP,
+    "B": SCALE_SHARP}
+
 DEGREE = ["I", "bII", "II", "bIII", "III", "IV", "bV", "V", "bVI", "VI", "bVII", "VII"]
 
 # quality
