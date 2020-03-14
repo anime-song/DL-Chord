@@ -37,7 +37,7 @@ def parse(chord):
             scale = SCALE[chord[0]]
         
         root = scale[note_to_value(root)]
-    else:
+    elif len(chord) > 0:
         scale = SCALE[chord[0]]
         root = chord[:1]
         rest = chord[1:]
@@ -61,7 +61,12 @@ class Chord:
     def __init__(self, chord):
         chord = normalize(chord)
         self._chord = chord
-        self._root, self._quality, self._on, self._scale = parse(self._chord)
+        try:
+            self._root, self._quality, self._on, self._scale = parse(self._chord)
+        
+        except Exception:
+            raise ValueError(
+                "Could not parse Chord. Invalid Chord {}".format(self.chord))
       
         if self._root not in self._scale:
             raise ValueError(
