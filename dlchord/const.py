@@ -23,20 +23,21 @@ ON_CHORD_SIGN = ("/")
 SCALE_FLAT = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 SCALE_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
+NORM_SCALE = {"Fb": "E", "Cb": "B", "E#": "F"}
+
 C_MAJOR_SCALE = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
-C_SHARP_MAJOR_SCALE = ["C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"]
-D_FLAT_MAJOR_SCALE = ["Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B", "C"]
+D_FLAT_MAJOR_SCALE = ["Db", "D", "Eb", "Fb", "F", "Gb", "G", "Ab", "A", "Bb", "Cb", "C"]
 D_MAJOR_SCALE = ["D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B", "C", "C#"]
-E_FLAT_MAJOR_SCALE = ["Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D"]
+E_FLAT_MAJOR_SCALE = ["Eb", "Fb", "F", "Gb", "G", "Ab", "A", "Bb", "Cb", "C", "Db", "D"]
 E_MAJOR_SCALE = ["E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"]
 F_MAJOR_SCALE = ["F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E"]
-F_SHARP_MAJOR_SCALE = ["F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F"]
+F_SHARP_MAJOR_SCALE = ["F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "E#"]
 G_FLAT_MAJOR_SCALE = ["Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F"]
 G_MAJOR_SCALE = ["G", "Ab", "A", "Bb", "B", "C", "C#", "D", "Eb", "E", "F", "F#"]
-A_FLAT_MAJOR_SCALE = ["Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G"]
+A_FLAT_MAJOR_SCALE = ["Ab", "A", "Bb", "Cb", "C", "Db", "D", "Eb", "Fb", "F", "Gb", "G"]
 A_MAJOR_SCALE = ["A", "Bb", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"]
-B_FLAT_MAJOR_SCALE = ["Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A"]
-B_MAJOR_SCALE = ["B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#"]
+B_FLAT_MAJOR_SCALE = ["Bb", "Cb", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A"]
+B_MAJOR_SCALE = ["B", "C", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#"]
 
 SCALE_SIG = {
     "C": SCALE_FLAT,
@@ -51,7 +52,6 @@ SCALE_SIG = {
 SCALE = {
     "C": C_MAJOR_SCALE,
     "Db": D_FLAT_MAJOR_SCALE,
-    "C#": C_SHARP_MAJOR_SCALE,
     "D": D_MAJOR_SCALE,
     "Eb": E_FLAT_MAJOR_SCALE,
     "E": E_MAJOR_SCALE,

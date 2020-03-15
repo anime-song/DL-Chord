@@ -35,7 +35,7 @@ $ pip install dlchord
 >>> chords
 [<Chord: Faug/B>, <Chord: Dbaug/B>, <Chord: Aaug/B>]
 
->>> chords = note_to_chord(["B", "Db", "F", "A"], scale="C#")
+>>> chords = note_to_chord(["B", "Db", "F", "A"], scale="F#")
 >>> chords
 [<Chord: Faug/B>, <Chord: C#aug/B>, <Chord: Aaug/B>]
 ```

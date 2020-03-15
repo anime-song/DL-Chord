@@ -5,7 +5,7 @@ from .parser import find_chord, c_shift
 import numpy as np
 
 
-def note_to_chord(notes, scale="C"):
+def note_to_chord(notes, scale="C", common=True):
     """構成音からコードを推定します。
     
     Parameters
@@ -34,7 +34,7 @@ def note_to_chord(notes, scale="C"):
     >>> chords
     [<Chord: Faug/B>, <Chord: Dbaug/B>, <Chord: Aaug/B>]
 
-    >>> chords = note_to_chord(["B", "Db", "F", "A"], scale="C#")
+    >>> chords = note_to_chord(["B", "Db", "F", "A"], scale="F#")
     >>> chords
     [<Chord: Faug/B>, <Chord: C#aug/B>, <Chord: Aaug/B>]
     """
@@ -59,7 +59,7 @@ def note_to_chord(notes, scale="C"):
     norm_notes.remove(bass)
     norm_notes.insert(0, bass)
 
-    chord_list = find_chord(norm_notes, bass=bass, scale=scale)
+    chord_list = find_chord(norm_notes, bass=bass, scale=scale, common=common)
 
     return chord_list
 
