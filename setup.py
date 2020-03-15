@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys
 sys.path.append("./test/")
-version = "1.3.3"
+version = "1.3.4"
 
 
 setup(

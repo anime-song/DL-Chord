@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 from .const import ACCIDENTAL_FLAT, ACCIDENTAL_SHARP
-from .const import SCALE_FLAT, SCALE_SHARP
+from .const import SCALE_FLAT, SCALE_SHARP, SCALE
 from .const import CHORD_MAP
 from .const import ON_CHORD_SIGN
 from . import chord
+
+
+def c_shift(arr):
+    n = arr.index("C")
+    return arr[n:] + arr[:n]
 
 
 def _match_count(a, b):
@@ -39,11 +44,9 @@ def _rotate_notes(notes):
         yield notes[x:] + notes[:x]
 
 
-def find_chord(notes, bass, scale="b"):
-    if scale == ACCIDENTAL_FLAT:
-        scale = SCALE_FLAT
-    elif scale == ACCIDENTAL_SHARP:
-        scale = SCALE_SHARP
+def find_chord(notes, bass, scale="C"):
+    if SCALE.get(scale):
+        scale = c_shift(SCALE[scale])
     else:
         raise ValueError("scale must be sharp or flat.")
 

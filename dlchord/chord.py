@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from .const import ACCIDENTAL, ON_CHORD_SIGN, ACCIDENTAL_FLAT, ACCIDENTAL_SHARP
-from .const import SCALE_FLAT, SCALE_SHARP, SCALE, DEGREE
+from .const import SCALE_FLAT, SCALE_SHARP, SCALE_SIG, SCALE, DEGREE
 from .const import NORM_LIST
 from .const import QUALITY_AUG, QUALITY_MINOR, QUALITY_SUS
 from .const import LABEL_5th, LABEL_6th, LABEL_7th
@@ -34,11 +34,11 @@ def parse(chord):
         elif chord[1] in ACCIDENTAL[1]:
             scale = SCALE_FLAT
         else:
-            scale = SCALE[chord[0]]
+            scale = SCALE_SIG[chord[0]]
         
         root = scale[note_to_value(root)]
     elif len(chord) > 0:
-        scale = SCALE[chord[0]]
+        scale = SCALE_SIG[chord[0]]
         root = chord[:1]
         rest = chord[1:]
 
@@ -71,11 +71,6 @@ class Chord:
         if self._root not in self._scale:
             raise ValueError(
                 "Could not parse Chord. Invalid Chord {}".format(self.chord))
-
-        if SCALE_SHARP == self._scale:
-            self._scale_sig = ACCIDENTAL_SHARP
-        else:
-            self._scale_sig = ACCIDENTAL_FLAT
 
     def __unicode__(self):
         return self._chord
@@ -327,5 +322,8 @@ class Chord:
             chord : Chord
         """
 
-        chord = note_to_chord(self.getNotes(), scale=self._scale_sig)[0]
+        root = self._scale[self.root]
+
+        chord = note_to_chord(self.getNotes(), scale=root)[0]
+
         return chord

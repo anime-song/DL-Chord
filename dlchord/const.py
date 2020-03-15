@@ -22,16 +22,50 @@ ON_CHORD_SIGN = ("/")
 # 
 SCALE_FLAT = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 SCALE_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-SCALE = {
+
+C_MAJOR_SCALE = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
+C_SHARP_MAJOR_SCALE = ["C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"]
+D_FLAT_MAJOR_SCALE = ["Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B", "C"]
+D_MAJOR_SCALE = ["D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B", "C", "C#"]
+E_FLAT_MAJOR_SCALE = ["Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D"]
+E_MAJOR_SCALE = ["E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"]
+F_MAJOR_SCALE = ["F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E"]
+F_SHARP_MAJOR_SCALE = ["F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F"]
+G_FLAT_MAJOR_SCALE = ["Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F"]
+G_MAJOR_SCALE = ["G", "Ab", "A", "Bb", "B", "C", "C#", "D", "Eb", "E", "F", "F#"]
+A_FLAT_MAJOR_SCALE = ["Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G"]
+A_MAJOR_SCALE = ["A", "Bb", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"]
+B_FLAT_MAJOR_SCALE = ["Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A"]
+B_MAJOR_SCALE = ["B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#"]
+
+SCALE_SIG = {
     "C": SCALE_FLAT,
     "D": SCALE_SHARP,
     "E": SCALE_SHARP,
     "F": SCALE_FLAT,
     "G": SCALE_SHARP,
     "A": SCALE_SHARP,
-    "B": SCALE_SHARP}
+    "B": SCALE_SHARP
+}
 
-DEGREE = ["I", "bII", "II", "bIII", "III", "IV", "bV", "V", "bVI", "VI", "bVII", "VII"]
+SCALE = {
+    "C": C_MAJOR_SCALE,
+    "Db": D_FLAT_MAJOR_SCALE,
+    "C#": C_SHARP_MAJOR_SCALE,
+    "D": D_MAJOR_SCALE,
+    "Eb": E_FLAT_MAJOR_SCALE,
+    "E": E_MAJOR_SCALE,
+    "F": F_MAJOR_SCALE,
+    "Gb": G_FLAT_MAJOR_SCALE,
+    "F#": F_SHARP_MAJOR_SCALE,
+    "G": G_MAJOR_SCALE,
+    "Ab": A_FLAT_MAJOR_SCALE,
+    "A": A_MAJOR_SCALE,
+    "Bb": B_FLAT_MAJOR_SCALE,
+    "B": B_MAJOR_SCALE
+}
+
+DEGREE = ["I", "bII", "II", "bIII", "III", "IV", "#IV", "V", "bVI", "VI", "bVII", "VII"]
 
 # quality
 LABEL_FLAT5 = "b5"

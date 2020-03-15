@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from .const import ACCIDENTAL, ACCIDENTAL_VAL, ACCIDENTAL_FLAT, ACCIDENTAL_SHARP
-from .const import SCALE_FLAT, SCALE_SHARP
-from .parser import find_chord
+from .const import SCALE_FLAT, SCALE_SHARP, SCALE
+from .parser import find_chord, c_shift
 import numpy as np
 
 
-def note_to_chord(notes, scale="b"):
+def note_to_chord(notes, scale="C"):
     """構成音からコードを推定します。
     
     Parameters
@@ -15,7 +15,7 @@ def note_to_chord(notes, scale="b"):
         構成音のリスト
 
     scale : str
-        コードの臨時記号
+        コードのスケール
         
 
     Examples
@@ -34,7 +34,7 @@ def note_to_chord(notes, scale="b"):
     >>> chords
     [<Chord: Faug/B>, <Chord: Dbaug/B>, <Chord: Aaug/B>]
 
-    >>> chords = note_to_chord(["B", "Db", "F", "A"], scale="#")
+    >>> chords = note_to_chord(["B", "Db", "F", "A"], scale="C#")
     >>> chords
     [<Chord: Faug/B>, <Chord: C#aug/B>, <Chord: Aaug/B>]
     """
@@ -93,17 +93,14 @@ def note_to_value(note):
     return result_num
 
 
-def value_to_note(value, scale="b"):
+def value_to_note(value, scale="C"):
     if value is None or not any([type(value) is int, isinstance(value, np.intc)]):
         raise ValueError("Invalid value {}".format(value))
 
     value %= 12
-    if scale == ACCIDENTAL_FLAT:
-        return SCALE_FLAT[value]
 
-    elif scale == ACCIDENTAL_SHARP:
-        return SCALE_SHARP[value]
-
+    if SCALE.get(scale):
+        return c_shift(SCALE[scale])[value]
     else:
         raise ValueError("value must be sharp or flat")
 
