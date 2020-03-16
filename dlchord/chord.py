@@ -304,7 +304,7 @@ class Chord:
 
         return degr + str(self._quality) + on
 
-    def modify(self, key=None, common=True):
+    def modify(self, key="C", common=True):
         """コードを修正します。
 
         Examples
@@ -322,11 +322,7 @@ class Chord:
             chord : Chord
         """
 
-        if key is None:
-            root = self._scale[self.root]
-        else:
-            root = key
 
-        chord = note_to_chord(self.getNotes(), scale=root, common=common)[0]
+        chord = note_to_chord(self.getNotes(), scale=key, common=common)[0]
 
         return chord
