@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from .const import ACCIDENTAL_FLAT, ACCIDENTAL_SHARP
 from .const import SCALE_FLAT, SCALE_SHARP, SCALE, NORM_SCALE
 from .const import CHORD_MAP
 from .const import ON_CHORD_SIGN
@@ -44,10 +43,10 @@ def _rotate_notes(notes):
         yield notes[x:] + notes[:x]
 
 
-def find_chord(notes, bass, scale="C", common=True):
+def find_chord(notes, bass, scale="C", advanced=False):
     if SCALE.get(scale):
         scale = c_shift(SCALE[scale])
-        if common:
+        if not advanced:
             for k, v in NORM_SCALE.items():
                 if k in scale:
                     scale[scale.index(k)] = v

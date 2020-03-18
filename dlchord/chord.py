@@ -5,7 +5,8 @@ from .const import NORM_LIST
 from .const import QUALITY_AUG, QUALITY_MINOR, QUALITY_SUS
 from .const import LABEL_5th, LABEL_6th, LABEL_7th
 from .quality import Quality
-from .util import note_to_value, value_to_note, note_to_chord
+from .util import note_to_value, value_to_note, note_to_chord, relative_value
+from .parser import c_shift
 
 
 def normalize(chord):
@@ -185,6 +186,12 @@ class Chord:
 
         return num
 
+    def is_onchord(self):
+        if self._on is not None:
+            return True
+        else:
+            return False
+
     def getNotes(self, categorical=False):
         """コードの構成音を取得します。
 
@@ -304,7 +311,7 @@ class Chord:
 
         return degr + str(self._quality) + on
 
-    def modify(self, key="C", common=True):
+    def modify(self, key="C", advanced=False):
         """コードを修正します。
 
         Examples
@@ -322,7 +329,12 @@ class Chord:
             chord : Chord
         """
 
+        chord = note_to_chord(self.getNotes(), scale=key, advanced=advanced)[0]
 
-        chord = note_to_chord(self.getNotes(), scale=key, common=common)[0]
+        if relative_value(chord.root, key) == 4 and relative_value(chord.bass, key) == 8:
+            chord = Chord(c_shift(SCALE[key])[chord.root] +
+                          chord.quality.quality +
+                          ON_CHORD_SIGN +
+                          SCALE_SHARP[chord.bass])
 
         return chord

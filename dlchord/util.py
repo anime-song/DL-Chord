@@ -5,7 +5,7 @@ from .parser import find_chord, c_shift
 import numpy as np
 
 
-def note_to_chord(notes, scale="C", common=True):
+def note_to_chord(notes, scale="C", advanced=False):
     """構成音からコードを推定します。
     
     Parameters
@@ -59,7 +59,11 @@ def note_to_chord(notes, scale="C", common=True):
     norm_notes.remove(bass)
     norm_notes.insert(0, bass)
 
-    chord_list = find_chord(norm_notes, bass=bass, scale=scale, common=common)
+    chord_list = find_chord(
+        norm_notes,
+        bass=bass,
+        scale=scale,
+        advanced=advanced)
 
     return chord_list
 
@@ -91,6 +95,10 @@ def note_to_value(note):
     result_num = result_num % len(SCALE_FLAT)
 
     return result_num
+
+
+def relative_value(value, key):
+    return (value - note_to_value(key)) % 12
 
 
 def value_to_note(value, scale="C"):
