@@ -2,7 +2,7 @@
 import unittest
 
 from dlchord.chord import Chord
-from dlchord.util import note_to_chord
+from dlchord.parser import note_to_chord
 
 
 class TestChord(unittest.TestCase):

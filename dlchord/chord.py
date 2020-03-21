@@ -353,7 +353,7 @@ class Chord:
                             ON_CHORD_SIGN +
                             Chord(chord.onchord).modify(chord.accidental).chord)
                 else:
-                    if chord.quality.quality not in QUALITY_AUG:
+                    if QUALITY_AUG not in chord.quality.quality:
                         chord = Chord(
                             chord.chord.split(ON_CHORD_SIGN)[0] +
                             ON_CHORD_SIGN +
