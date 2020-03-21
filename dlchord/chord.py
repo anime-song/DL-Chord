@@ -16,7 +16,7 @@ def normalize(chord):
 
 
 def parse(chord):
-
+    accidental = ""
     if len(chord) > 1 and any((chord[1] in acc) for acc in ACCIDENTAL):
         if len(chord) > 2:
             if any((chord[2] in acc) for acc in ACCIDENTAL):
@@ -31,9 +31,12 @@ def parse(chord):
         
         if chord[1] in ACCIDENTAL[0]:
             scale = SCALE_SHARP
+            accidental = ACCIDENTAL_SHARP
             
         elif chord[1] in ACCIDENTAL[1]:
             scale = SCALE_FLAT
+            accidental = ACCIDENTAL_FLAT
+            
         else:
             scale = SCALE_SIG[chord[0]]
         
@@ -52,7 +55,7 @@ def parse(chord):
 
     quality = Quality(rest)
 
-    return root, quality, on, scale
+    return root, quality, on, scale, accidental
 
 
 class Chord:
@@ -63,7 +66,7 @@ class Chord:
         chord = normalize(chord)
         self._chord = chord
         try:
-            self._root, self._quality, self._on, self._scale = parse(self._chord)
+            self._root, self._quality, self._on, self._scale, self._accidental = parse(self._chord)
         
         except Exception:
             raise ValueError(
@@ -72,6 +75,7 @@ class Chord:
         if self._root not in self._scale:
             raise ValueError(
                 "Could not parse Chord. Invalid Chord {}".format(self.chord))
+
 
     def __unicode__(self):
         return self._chord
@@ -139,6 +143,10 @@ class Chord:
         return self._quality
 
     @property
+    def accidental(self):
+        return self._accidental
+
+    @property
     def root(self):
         """ルート音を取得します。
 
@@ -186,7 +194,12 @@ class Chord:
 
         return num
 
-    def is_onchord(self):
+    @property
+    def onchord(self):
+        return self._on
+
+    @property
+    def isOnchord(self):
         if self._on is not None:
             return True
         else:
@@ -330,11 +343,20 @@ class Chord:
         """
 
         chord = note_to_chord(self.getNotes(), scale=key, advanced=advanced)[0]
-
-        if relative_value(chord.root, key) == 4 and relative_value(chord.bass, key) == 8:
-            chord = Chord(c_shift(SCALE[key])[chord.root] +
-                          chord.quality.quality +
-                          ON_CHORD_SIGN +
-                          SCALE_SHARP[chord.bass])
+        
+        if chord.isOnchord:
+            if Chord(chord.onchord).accidental != "":
+                if chord.accidental:
+                    if chord.accidental != Chord(chord.onchord).accidental:
+                        chord = Chord(
+                            chord.chord.split(ON_CHORD_SIGN)[0] +
+                            ON_CHORD_SIGN +
+                            Chord(chord.onchord).modify(chord.accidental).chord)
+                else:
+                    if chord.quality.quality not in QUALITY_AUG:
+                        chord = Chord(
+                            chord.chord.split(ON_CHORD_SIGN)[0] +
+                            ON_CHORD_SIGN +
+                            c_shift(SCALE[chord.chord[0]])[chord.bass])
 
         return chord
