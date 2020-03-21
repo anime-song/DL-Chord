@@ -2,12 +2,9 @@
 from .const import SCALE_FLAT, SCALE_SHARP, SCALE, NORM_SCALE
 from .const import CHORD_MAP
 from .const import ON_CHORD_SIGN
+from .util import note_to_value, c_shift
 from . import chord
-
-
-def c_shift(arr):
-    n = arr.index("C")
-    return arr[n:] + arr[:n]
+import numpy as np
 
 
 def _match_count(a, b):
@@ -99,5 +96,68 @@ def find_chord(notes, bass, scale="C", advanced=False):
 
     if not chord_list:
         chord_list = sorted(add_list, reverse=True)
+
+    return chord_list
+
+
+def note_to_chord(notes, scale="C", advanced=False):
+    """構成音からコードを推定します。
+    
+    Parameters
+    ----------
+
+    notes : list (int or str)
+        構成音のリスト
+
+    scale : str
+        コードのスケール
+        
+
+    Examples
+    --------
+    >>> from dlchord import note_to_chord
+    >>> chords = note_to_chord(["C", "E", "G"])
+    >>> chords
+    [<Chord : C>]
+
+    >>> from dlchord import note_to_chord
+    >>> chords = note_to_chord([0, 4, 7])
+    >>> chords
+    [<Chord: C>]
+
+    >>> chords = note_to_chord(["B", "Db", "F", "A"])
+    >>> chords
+    [<Chord: Faug/B>, <Chord: Dbaug/B>, <Chord: Aaug/B>]
+
+    >>> chords = note_to_chord(["B", "Db", "F", "A"], scale="F#")
+    >>> chords
+    [<Chord: Faug/B>, <Chord: C#aug/B>, <Chord: Aaug/B>]
+    """
+    notes = list(notes)
+    if not list(notes):
+        raise ValueError("Please specify notes which consist a chord.")
+    
+    norm_notes = []
+
+    for note in notes:
+        if type(note) is str:
+            norm_notes.append(note_to_value(note))
+        else:
+            if type(note) is int or isinstance(note, np.intc):
+                norm_notes.append(note % 12)
+            else:
+                raise ValueError("notes must be an integer or string.")
+
+    bass = norm_notes[0]
+
+    norm_notes = sorted(list(set(norm_notes)))
+    norm_notes.remove(bass)
+    norm_notes.insert(0, bass)
+
+    chord_list = find_chord(
+        norm_notes,
+        bass=bass,
+        scale=scale,
+        advanced=advanced)
 
     return chord_list

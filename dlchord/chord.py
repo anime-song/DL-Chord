@@ -5,8 +5,8 @@ from .const import NORM_LIST
 from .const import QUALITY_AUG, QUALITY_MINOR, QUALITY_SUS
 from .const import LABEL_5th, LABEL_6th, LABEL_7th
 from .quality import Quality
-from .util import note_to_value, value_to_note, note_to_chord, relative_value
-from .parser import c_shift
+from .util import note_to_value, value_to_note, relative_value, c_shift
+from .parser import note_to_chord
 
 
 def normalize(chord):

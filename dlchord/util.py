@@ -1,71 +1,13 @@
 # -*- coding: utf-8 -*-
 from .const import ACCIDENTAL, ACCIDENTAL_VAL, ACCIDENTAL_FLAT, ACCIDENTAL_SHARP
 from .const import SCALE_FLAT, SCALE_SHARP, SCALE
-from .parser import find_chord, c_shift
 import numpy as np
 
 
-def note_to_chord(notes, scale="C", advanced=False):
-    """構成音からコードを推定します。
-    
-    Parameters
-    ----------
-
-    notes : list (int or str)
-        構成音のリスト
-
-    scale : str
-        コードのスケール
-        
-
-    Examples
-    --------
-    >>> from dlchord import note_to_chord
-    >>> chords = note_to_chord(["C", "E", "G"])
-    >>> chords
-    [<Chord : C>]
-
-    >>> from dlchord import note_to_chord
-    >>> chords = note_to_chord([0, 4, 7])
-    >>> chords
-    [<Chord: C>]
-
-    >>> chords = note_to_chord(["B", "Db", "F", "A"])
-    >>> chords
-    [<Chord: Faug/B>, <Chord: Dbaug/B>, <Chord: Aaug/B>]
-
-    >>> chords = note_to_chord(["B", "Db", "F", "A"], scale="F#")
-    >>> chords
-    [<Chord: Faug/B>, <Chord: C#aug/B>, <Chord: Aaug/B>]
-    """
-    notes = list(notes)
-    if not list(notes):
-        raise ValueError("Please specify notes which consist a chord.")
-    
-    norm_notes = []
-
-    for note in notes:
-        if type(note) is str:
-            norm_notes.append(note_to_value(note))
-        else:
-            if type(note) is int or isinstance(note, np.intc):
-                norm_notes.append(note % 12)
-            else:
-                raise ValueError("notes must be an integer or string.")
-
-    bass = norm_notes[0]
-
-    norm_notes = sorted(list(set(norm_notes)))
-    norm_notes.remove(bass)
-    norm_notes.insert(0, bass)
-
-    chord_list = find_chord(
-        norm_notes,
-        bass=bass,
-        scale=scale,
-        advanced=advanced)
-
-    return chord_list
+def c_shift(arr):
+    value_arr = [note_to_value(v) for v in arr]
+    n = value_arr.index(0)
+    return arr[n:] + arr[:n]
 
 
 def note_to_value(note):
@@ -114,7 +56,7 @@ def value_to_note(value, scale="C"):
 
 
 def to_categorical(x, classes=12):
-    y = np.zeros((classes))
+    y = np.zeros((classes), dtype="float32")
     y[x[0]] = 2
     for i in range(1, len(x)):
         y[x[i]] = 1

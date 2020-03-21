@@ -23,7 +23,7 @@ ON_CHORD_SIGN = ("/")
 SCALE_FLAT = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 SCALE_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
-NORM_SCALE = {"Fb": "E", "Cb": "B", "E#": "F"}
+NORM_SCALE = {"Fb": "E", "Cb": "B", "E#": "F", "B#": "C"}
 
 C_MAJOR_SCALE = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
 D_FLAT_MAJOR_SCALE = ["Db", "D", "Eb", "Fb", "F", "Gb", "G", "Ab", "A", "Bb", "Cb", "C"]
