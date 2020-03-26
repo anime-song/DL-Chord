@@ -26,6 +26,7 @@ SCALE_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 NORM_SCALE = {"Fb": "E", "Cb": "B", "E#": "F", "B#": "C"}
 
 C_MAJOR_SCALE = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
+C_SHARP_MAJOR_SCALE = ["C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B", "B#"]
 D_FLAT_MAJOR_SCALE = ["Db", "D", "Eb", "Fb", "F", "Gb", "G", "Ab", "A", "Bb", "Cb", "C"]
 D_MAJOR_SCALE = ["D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B", "C", "C#"]
 E_FLAT_MAJOR_SCALE = ["Eb", "Fb", "F", "Gb", "G", "Ab", "A", "Bb", "Cb", "C", "Db", "D"]
@@ -51,6 +52,7 @@ SCALE_SIG = {
 
 SCALE = {
     "C": C_MAJOR_SCALE,
+    "C#": C_SHARP_MAJOR_SCALE,
     "Db": D_FLAT_MAJOR_SCALE,
     "D": D_MAJOR_SCALE,
     "Eb": E_FLAT_MAJOR_SCALE,

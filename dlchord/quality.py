@@ -153,7 +153,7 @@ class Quality:
 
         return np.array(values)
 
-    def getNotes(self, root='C', on=None, categorical=False):
+    def getNotes(self, root='C', on=None, categorical=False, relative=False):
         
         values = self._convert(self._quality)
         
@@ -167,6 +167,9 @@ class Quality:
 
         _, idx = np.unique(values, return_index=True)
         values = values[np.sort(idx)]
+
+        if relative:
+            values = sorted([(note - values[0]) % 12 for note in values])
 
         if categorical:
             values = to_categorical(values)

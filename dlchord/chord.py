@@ -76,7 +76,6 @@ class Chord:
             raise ValueError(
                 "Could not parse Chord. Invalid Chord {}".format(self.chord))
 
-
     def __unicode__(self):
         return self._chord
         
@@ -205,13 +204,16 @@ class Chord:
         else:
             return False
 
-    def getNotes(self, categorical=False):
+    def getNotes(self, categorical=False, relative=False):
         """コードの構成音を取得します。
 
         Parameters
         ----------
         categorical : boolean
             12個に分解するかどうか
+
+        relative : boolean
+            相対的に取得します。
         
         Examples
         --------
@@ -236,7 +238,8 @@ class Chord:
         chord notes: [notes]
 
         """
-        notes = self._quality.getNotes(root=self._root, on=self._on, categorical=categorical)
+        notes = self._quality.getNotes(root=self._root, on=self._on, categorical=categorical, relative=relative)
+
         return notes
 
     def components(self):
