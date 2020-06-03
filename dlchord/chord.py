@@ -2,7 +2,7 @@
 from .const import ACCIDENTAL, ON_CHORD_SIGN, ACCIDENTAL_FLAT, ACCIDENTAL_SHARP
 from .const import SCALE_FLAT, SCALE_SHARP, SCALE_SIG, SCALE, DEGREE
 from .const import NORM_LIST
-from .const import QUALITY_AUG, QUALITY_MINOR, QUALITY_SUS
+from .const import QUALITY_AUG, QUALITY_MINOR, QUALITY_SUS, QUALITY_ADD
 from .const import LABEL_5th, LABEL_6th, LABEL_7th
 from .quality import Quality
 from .util import note_to_value, value_to_note, relative_value, c_shift
@@ -92,19 +92,22 @@ class Chord:
         if self.quality.quality == LABEL_5th:
             return True
 
-        if QUALITY_SUS in self.quality.quality and ON_CHORD_SIGN in self.chord:
+        if QUALITY_SUS in self.quality.quality and self.isonchord:
+            return True
+
+        if self.isonchord and QUALITY_ADD in self.quality.quality:
             return True
 
         if "omit" in self.quality.quality:
             return True
 
         if self.quality.quality == QUALITY_AUG and other.quality.quality == QUALITY_AUG:
-            if ON_CHORD_SIGN in other.chord and ON_CHORD_SIGN in self.chord:
+            if other.isonchord and self.isonchord:
                 if (other.bass - other.root) % 12 == 6:
                     return True
-        if ON_CHORD_SIGN not in other.chord and ON_CHORD_SIGN in self.chord:
+        if not other.isonchord and self.isonchord:
             return True
-        elif ON_CHORD_SIGN in other.chord and ON_CHORD_SIGN not in self.chord:
+        elif other.isonchord and not self.isonchord:
             return False
 
         if LABEL_6th in self.quality.quality and (QUALITY_MINOR + LABEL_7th) in other.quality.quality:
@@ -115,7 +118,7 @@ class Chord:
 
         if self.bass in Chord(value_to_note(self.root) + self.quality.quality).getNotes():
             return True
-
+            
         return False
 
     def __ge__(self, other):
@@ -198,7 +201,7 @@ class Chord:
         return self._on
 
     @property
-    def isOnchord(self):
+    def isonchord(self):
         if self._on is not None:
             return True
         else:
@@ -347,8 +350,8 @@ class Chord:
 
         chord = note_to_chord(self.getNotes(), scale=key, advanced=advanced)[0]
         
-        if chord.isOnchord:
-            if Chord(chord.onchord).accidental != "":
+        if chord.isonchord:
+            if Chord(chord.onchord).accidental:
                 if chord.accidental:
                     if chord.accidental != Chord(chord.onchord).accidental:
                         chord = Chord(
