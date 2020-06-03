@@ -1,3 +1,7 @@
+## v1.4.1
+- 変数名の変更 isOnchord -> isonchord
+- add11の優先度変更
+
 ## v1.4.0
 - 嬰ハ長調(C sharp major)の追加
 
