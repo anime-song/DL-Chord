@@ -23,22 +23,52 @@ ON_CHORD_SIGN = ("/")
 SCALE_FLAT = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 SCALE_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
-NORM_SCALE = {"Fb": "E", "Cb": "B", "E#": "F", "B#": "C"}
+NORM_SCALE = {
+    "B#": "C",
+    "Dbb": "C",
+    "C##": "D",
+    "Ebb": "D",
+    "Fb": "E",
+    "D##": "E",
+    "E#": "F",
+    "F##": "G",
+    "Abb": "G",
+    "Bbb": "A",
+    "G##": "A",
+    "Cb": "B",
+}
 
 C_MAJOR_SCALE = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
-C_SHARP_MAJOR_SCALE = ["C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B", "B#"]
-D_FLAT_MAJOR_SCALE = ["Db", "D", "Eb", "Fb", "F", "Gb", "G", "Ab", "A", "Bb", "Cb", "C"]
+C_SHARP_MAJOR_SCALE = ["C#", "D", "D#", "E", "E#", "F#", "F##", "G#", "A", "A#", "B", "B#"]
+D_FLAT_MAJOR_SCALE = ["Db", "Ebb", "Eb", "Fb", "F", "Gb", "G", "Ab", "Bbb", "Bb", "Cb", "C"]
 D_MAJOR_SCALE = ["D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B", "C", "C#"]
 E_FLAT_MAJOR_SCALE = ["Eb", "Fb", "F", "Gb", "G", "Ab", "A", "Bb", "Cb", "C", "Db", "D"]
-E_MAJOR_SCALE = ["E", "F", "F#", "G", "G#", "A", "A#", "B", "B#", "C#", "D", "D#"]
+E_MAJOR_SCALE = ["E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"]
 F_MAJOR_SCALE = ["F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E"]
 F_SHARP_MAJOR_SCALE = ["F#", "G", "G#", "A", "A#", "B", "B#", "C#", "D", "D#", "E", "E#"]
-G_FLAT_MAJOR_SCALE = ["Gb", "G", "Ab", "A", "Bb", "Cb", "C", "Db", "D", "Eb", "Fb", "F"]
+G_FLAT_MAJOR_SCALE = ["Gb", "Abb", "Ab", "Bbb", "Bb", "Cb", "C", "Db", "Ebb", "Eb", "Fb", "F"]
 G_MAJOR_SCALE = ["G", "Ab", "A", "Bb", "B", "C", "C#", "D", "Eb", "E", "F", "F#"]
-A_FLAT_MAJOR_SCALE = ["Ab", "A", "Bb", "Cb", "C", "Db", "D", "Eb", "Fb", "F", "Gb", "G"]
-A_MAJOR_SCALE = ["A", "Bb", "B", "C", "C#", "D", "D#", "E", "E#", "F#", "G", "G#"]
+A_FLAT_MAJOR_SCALE = ["Ab", "Bbb", "Bb", "Cb", "C", "Db", "D", "Eb", "Fb", "F", "Gb", "G"]
+A_MAJOR_SCALE = ["A", "Bb", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"]
 B_FLAT_MAJOR_SCALE = ["Bb", "Cb", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A"]
 B_MAJOR_SCALE = ["B", "C", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#"]
+C_FLAT_MAJOR_SCALE = ["Cb", "Dbb", "Ebb", "Eb", "Fb", "F", "Gb", "Abb", "Ab", "Bbb", "Bb"]
+
+A_MINOR_SCALE = ["A", "Bb", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"]
+E_MINOR_SCALE = ["E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"]
+B_MINOR_SCALE = ["B", "C", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#"]
+F_SHARP_MINOR_SCALE = ["F#", "G", "G#", "A", "A#", "B", "B#", "C#", "D", "D#", "E", "E#"]
+C_SHARP_MINOR_SCALE = ["C#", "D", "D#", "E", "E", "E#", "F#", "F##", "G#", "A", "A#", "B#"]
+G_SHARP_MINOR_SCALE = ["G#", "A", "A#", "B", "B#", "C#", "C##", "D#", "E", "E#", "F#", "F##"]
+D_SHARP_MINOR_SCALE = ["D#", "E", "E#", "F#", "F##", "G#", "G##", "A#", "B", "B#", "C#", "C##"]
+A_SHARP_MINOR_SCALE = ["A#", "B", "B#", "C#", "C##", "D#", "D##", "E#", "F#", "F##", "G#", "G##"]
+D_MINOR_SCALE = ["D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "C", "C#"]
+G_MINOR_SCALE = ["G", "Ab", "A", "Bb", "B", "C", "C#", "D", "Eb", "E", "F", "F#"]
+C_MINOR_SCALE = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
+F_MINOR_SCALE = ["F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E"]
+B_FLAT_MINOR_SCALE = ["Bb", "Cb", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A"]
+E_FLAT_MINOR_SCALE = ["Eb", "Fb", "F", "Gb", "G", "Ab", "A", "Bb", "Cb", "C", "Db", "D"]
+A_FLAT_MINOR_SCALE = ["Ab", "Bbb", "Bb", "Cb", "C", "Db", "D", "Eb", "Fb", "F", "Gb", "G"]
 
 SCALE_SIG = {
     "C": SCALE_FLAT,
@@ -65,6 +95,21 @@ SCALE = {
     "A": A_MAJOR_SCALE,
     "Bb": B_FLAT_MAJOR_SCALE,
     "B": B_MAJOR_SCALE,
+    "Cm": C_MINOR_SCALE,
+    "C#m": C_SHARP_MINOR_SCALE,
+    "Dm": D_MINOR_SCALE,
+    "D#m": D_SHARP_MINOR_SCALE,
+    "Ebm": E_FLAT_MINOR_SCALE,
+    "Em": E_MINOR_SCALE,
+    "Fm": F_MINOR_SCALE,
+    "F#m": F_SHARP_MINOR_SCALE,
+    "Gm": G_MINOR_SCALE,
+    "G#m": G_SHARP_MINOR_SCALE,
+    "Abm": A_FLAT_MINOR_SCALE,
+    "Am": A_MINOR_SCALE,
+    "A#m": A_SHARP_MINOR_SCALE,
+    "Bbm": B_FLAT_MINOR_SCALE,
+    "Bm": B_MINOR_SCALE,
     "b": SCALE_FLAT,
     "#": SCALE_SHARP,
 }
