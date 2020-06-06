@@ -143,9 +143,9 @@ def note_to_chord(notes, scale="C", advanced=False):
         if type(note) is str:
             norm_notes.append(note_to_value(note))
         else:
-            if type(note) is int or isinstance(note, np.intc):
+            try:
                 norm_notes.append(note % 12)
-            else:
+            except ValueError:
                 raise ValueError("notes must be an integer or string.")
 
     bass = norm_notes[0]
