@@ -60,13 +60,26 @@ def parse(chord):
 
 class Chord:
     """コードを処理するクラス
-    
+
+        Parameters
+        ----------
+        chord : str
+            解析するコード
+
+        scale : str
+            コードのスケール。転調やディグリーなどで使用します。
     """
-    def __init__(self, chord):
+    def __init__(self, chord, scale=None):
         chord = normalize(chord)
         self._chord = chord
         try:
             self._root, self._quality, self._on, self._scale, self._accidental = parse(self._chord)
+
+            if scale:
+                if not SCALE.get(scale):
+                    raise ValueError("{} is a scale that does not exist.".format(scale))
+
+                self._scale = c_shift(SCALE[scale])
         
         except Exception:
             raise ValueError(
@@ -156,13 +169,13 @@ class Chord:
         --------
         >>> from dlchord import Chord
         >>> chord = Chord("C")
-        >>> print(chord.root())
+        >>> print(chord.root)
 
         0
 
         >>> from dlchord import Chord
         >>> chord = Chord("C/G")
-        >>> print(chord.root())
+        >>> print(chord.root)
 
         0
         """
@@ -179,13 +192,13 @@ class Chord:
         --------
         >>> from dlchord import Chord
         >>> chord = Chord("C")
-        >>> print(chord.bass())
+        >>> print(chord.bass)
 
         0
 
         >>> from dlchord import Chord
         >>> chord = Chord("C/G")
-        >>> print(chord.bass())
+        >>> print(chord.bass)
 
         7
         """
@@ -245,7 +258,7 @@ class Chord:
 
         return notes
 
-    def components(self):
+    def components(self, scale=None):
         """コードの構成音を文字で取得します。
 
         Examples
@@ -257,15 +270,20 @@ class Chord:
 
         ["C", "E", "G"]
 
-        >>> chord = Chord("C#")
-        >>> comp = chord.components()
+        >>> chord = Chord("C")
+        >>> comp = chord.components(scale="C#")
         >>> comp
 
-        ["C#", "F", "G#"]
+        ["B#", "E", "F##"]
 
         """
         notes = self.getNotes()
-        comp = [self._scale[note] for note in notes]
+        if scale:
+            scale_list = c_shift(SCALE[scale])
+        else:
+            scale_list = self._scale
+        
+        comp = [scale_list[note] for note in notes]
 
         return comp
 
@@ -303,20 +321,19 @@ class Chord:
 
         return t_chord
 
-    def degree(self, key=0):
+    def degree(self, scale="C"):
         """
         
         Parameters
         ----------
-            key : int
+            scale : str
                 基準とする調
-                C = 0
         
         Examples
         --------
         >>> from dlchord import Chord
         >>> chord = Chord("C")
-        >>> print(chord.degree(key=0)) # C調
+        >>> print(chord.degree(key="C")) # C調
         I
 
         Returns:
@@ -325,13 +342,20 @@ class Chord:
         
         root_n = self._scale.index(self._root)
 
-        degr = DEGREE[root_n - key]
+        degr = DEGREE[root_n - note_to_value(scale)]
         on = ON_CHORD_SIGN + self._on if self._on is not None else ""
 
         return degr + str(self._quality) + on
 
-    def modify(self, key="C", advanced=False):
+    def modify(self, scale="C", advanced=False):
         """コードを修正します。
+
+        Parameters
+        ----------
+            scale : str
+                コードの調
+            advanced : bool
+                ダブルシャープやダブルフラット、B#やE#などを使用するかどうか。
 
         Examples
         --------
@@ -348,7 +372,10 @@ class Chord:
             chord : Chord
         """
 
-        chord = note_to_chord(self.getNotes(), scale=key, advanced=advanced)[0]
+        chord = note_to_chord(
+            self.getNotes(),
+            scale=scale,
+            advanced=advanced)[0]
         
         if chord.isonchord:
             if Chord(chord.onchord).accidental:

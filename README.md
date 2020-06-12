@@ -82,7 +82,7 @@ $ pip install dlchord
 ```python
 >>> from dlchord import Chord
 >>> chord = Chord("C")
->>> print(chord.degree(key=0)) # C調
+>>> print(chord.degree(key="C")) # C調
 I
 ```
 
@@ -113,6 +113,22 @@ F#m7(9)
 # ベース音 2
 # 構成音 1
 # 非構成音 0
+```
+
+## 構成音取得(文字)
+```python
+>>> from dlchord import Chord
+>>> chord = Chord("C")
+>>> comp = chord.components()
+>>> comp
+
+["C", "E", "G"]
+
+>>> chord = Chord("C")
+>>> comp = chord.components(scale="C#")
+>>> comp
+
+["B#", "E", "F##"]
 ```
 
 ## コードを比較
