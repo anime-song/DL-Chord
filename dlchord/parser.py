@@ -145,8 +145,8 @@ def note_to_chord(notes, scale="C", advanced=False):
         else:
             try:
                 norm_notes.append(note % 12)
-            except ValueError:
-                raise ValueError("notes must be an integer or string.")
+            except ValueError or TypeError:
+                raise TypeError("notes must be an integer or string.")
 
     bass = norm_notes[0]
 
